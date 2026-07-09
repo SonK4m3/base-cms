@@ -47,15 +47,32 @@ If the remote already exists, skip the `remote add` step and just push.
 
 ## Wrangler deploy flow
 
-For this monorepo, do not run `npx wrangler deploy` from the repository root.
-Run the deploy from the Astro app package so Wrangler targets a single project:
+This project deploys as a Cloudflare Pages site, so use a Pages deploy command,
+not the Worker command `wrangler deploy`.
 
 ```bash
-pnpm deploy:web
+pnpm deploy:cf
 ```
 
-This script switches into `apps/medical-web` before calling Wrangler, so the
-workspace root is no longer ambiguous.
+The deploy wrapper at [scripts/cloudflare-pages-deploy.mjs](D:/Web/base-cms/scripts/cloudflare-pages-deploy.mjs)
+runs:
+
+```bash
+npx wrangler pages deploy apps/medical-web/dist --project-name <your-project> --branch <branch>
+```
+
+Set this environment variable before deploying:
+
+```bash
+CLOUDFLARE_PAGES_PROJECT_NAME=<your-pages-project-name>
+```
+
+If your Cloudflare dashboard currently uses `npx wrangler deploy` as the custom
+deploy command, change it to:
+
+```bash
+pnpm deploy:cf
+```
 
 ## Environment variables
 

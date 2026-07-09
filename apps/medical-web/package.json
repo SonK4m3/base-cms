@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy:cf": "npx wrangler deploy"
+    "deploy:cf": "node ../../scripts/cloudflare-pages-deploy.mjs"
   },
   "dependencies": {
     "astro": "^5.10.0"
