@@ -45,6 +45,18 @@ git push -u origin main
 
 If the remote already exists, skip the `remote add` step and just push.
 
+## Wrangler deploy flow
+
+For this monorepo, do not run `npx wrangler deploy` from the repository root.
+Run the deploy from the Astro app package so Wrangler targets a single project:
+
+```bash
+pnpm deploy:web
+```
+
+This script switches into `apps/medical-web` before calling Wrangler, so the
+workspace root is no longer ambiguous.
+
 ## Environment variables
 
 ### Production

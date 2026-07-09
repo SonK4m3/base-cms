@@ -9,6 +9,7 @@
     "build": "pnpm build:web && pnpm build:cms",
     "build:web": "pnpm --filter @base-cms/medical-web build",
     "build:cms": "pnpm --filter @base-cms/strapi-cms build",
+    "deploy:web": "pnpm --filter @base-cms/medical-web run deploy:cf",
     "lint": "echo \"Add workspace linting when dependencies are installed\""
   }
 }
