@@ -1,0 +1,101 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { articleCards, clinicSite, doctors, faqItems, researchEntries } from "../data/site";
+import "../styles/global.css";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+      { "@type": "ListItem", position: 2, name: "Nghiên cứu & công bố", item: "https://taitaoantam.vn/nghien-cuu-cong-bo/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Nguồn tham khảo và công bố",
+    itemListElement: researchEntries.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.title,
+      url: "https://taitaoantam.vn/nghien-cuu-cong-bo/"
+    }))
+  }
+];
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Nghiên cứu & công bố`}
+  description="Tài liệu khoa học, công bố và bài viết chuyên môn"
+  activeHref="/blog"
+  structuredData={structuredData}
+>
+  <section class="page-hero page-hero-slim">
+    <div class="hero-copy">
+      <p class="eyebrow">Nghiên cứu &amp; công bố</p>
+      <h1>Tài liệu khoa học, công bố và nguồn tham khảo chuyên môn</h1>
+      <p class="hero-text">
+        Trang này gom nguồn trích dẫn, công bố và tài liệu chuyên môn để blog, FAQ và hồ sơ bác sĩ có một điểm nối authority rõ ràng hơn.
+      </p>
+    </div>
+    <div class="hero-visual hero-visual-note">
+      <h2>Mục tiêu của trang</h2>
+      <ul>
+        <li>Tăng độ tin cậy cho toàn bộ cụm nội dung</li>
+        <li>Trỏ sang blog, FAQ và hồ sơ bác sĩ</li>
+        <li>Chuẩn bị cho gói Toàn diện sau này</li>
+        <li>Giữ nguồn tham khảo được tổ chức rõ ràng</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Nguồn" title="Các nhóm nội dung nên tách riêng" />
+    <div class="service-grid">
+      {researchEntries.map((item) => (
+        <article class="feature-card">
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          <a class="button button-secondary" href="/blog">Xem blog liên quan</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="split-grid">
+    <article class="section-block">
+      <SectionHeading eyebrow="Bài viết liên quan" title="Blog và bài viết nên nối với trang này" />
+      <div class="faq-list">
+        {articleCards.map((article) => (
+          <article class="faq-item">
+            <h3>{article.title}</h3>
+            <p>{article.description}</p>
+            <a class="button button-secondary" href={`/blog/${article.slug}`}>Đọc bài viết</a>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="section-block">
+      <SectionHeading eyebrow="Chuyên gia" title="Bác sĩ và FAQ nên được kết nối ở đâu?" />
+      <div class="faq-list">
+        {doctors.map((doctor) => (
+          <article class="faq-item">
+            <h3>{doctor.name}</h3>
+            <p>{doctor.profileFocus}</p>
+            <a class="button button-secondary" href={`/bac-si/${doctor.slug}`}>Xem hồ sơ</a>
+          </article>
+        ))}
+        {faqItems.slice(0, 3).map((item) => (
+          <details class="faq-item">
+            <summary>{item.question}</summary>
+            <p>{item.shortAnswer}</p>
+          </details>
+        ))}
+      </div>
+    </article>
+  </section>
+</ClinicLayout>

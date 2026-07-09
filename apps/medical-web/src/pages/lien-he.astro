@@ -1,0 +1,174 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import LeadForm from "../components/LeadForm.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { clinicSite, faqItems } from "../data/site";
+import "../styles/global.css";
+
+const heroImage = "/assets/contact-hero-reception.png";
+
+const contactCards = [
+  {
+    title: "Hotline tư vấn",
+    value: clinicSite.hotline,
+    text: "Tư vấn miễn phí 24/7",
+    link: "tel:1900123456",
+    action: "Gọi ngay"
+  },
+  {
+    title: "Địa chỉ phòng khám",
+    value: clinicSite.address,
+    text: "Xem đường đi trên Google Maps",
+    link: "https://maps.google.com",
+    action: "Mở bản đồ"
+  },
+  {
+    title: "Thời gian làm việc",
+    value: clinicSite.hours,
+    text: "Có thể đặt lịch ngoài giờ theo yêu cầu",
+    link: "#lien-he",
+    action: "Đặt lịch"
+  },
+  {
+    title: "Email",
+    value: "contact@taotaoantam.vn",
+    text: "Phản hồi trong 24 giờ",
+    link: "mailto:contact@taotaoantam.vn",
+    action: "Gửi email"
+  },
+  {
+    title: "Zalo Official",
+    value: "Phòng khám Tái Tạo An Tâm",
+    text: "Nhắn tin để được tư vấn nhanh",
+    link: "https://zalo.me",
+    action: "Chat Zalo"
+  }
+];
+
+const contactMethods = [
+  {
+    title: "Gọi trực tiếp",
+    value: clinicSite.hotline,
+    text: "Tư vấn 24/7"
+  },
+  {
+    title: "Nhắn Zalo",
+    value: "Phòng khám Tái Tạo An Tâm",
+    text: "Phản hồi nhanh"
+  },
+  {
+    title: "Messenger",
+    value: "Phòng khám Tái Tạo An Tâm",
+    text: "Nhắn tin ngay"
+  },
+  {
+    title: "Gửi email",
+    value: "contact@taotaoantam.vn",
+    text: "Phản hồi trong 24h"
+  },
+  {
+    title: "Chat trực tuyến",
+    value: "Tư vấn viên online",
+    text: "Hỗ trợ ngay"
+  }
+];
+
+const quickFaq = faqItems.slice(0, 3);
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Liên hệ`}
+  description="Liên hệ, đặt lịch tư vấn, bản đồ, giờ làm việc và form liên hệ"
+  activeHref="/lien-he"
+>
+  <section class="page-hero page-hero-slim contact-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Liên hệ / Đặt lịch tư vấn</p>
+      <h1>Liên hệ và đặt lịch tư vấn</h1>
+      <p class="hero-text">
+        Để lại thông tin, đội ngũ Phòng khám Tái Tạo An Tâm sẽ liên hệ hỗ trợ và tư vấn phù hợp với tình trạng của
+        bạn.
+      </p>
+      <div class="hero-actions contact-hero-actions">
+        <a class="button button-primary" href="#lien-he">Đặt lịch tư vấn</a>
+        <a class="button button-secondary" href="tel:1900123456">Gọi hotline</a>
+      </div>
+      <div class="hero-features hero-features-4">
+        <div>Phản hồi nhanh chóng</div>
+        <div>Bảo mật thông tin</div>
+        <div>Tư vấn tận tâm</div>
+        <div>Đặt lịch linh hoạt</div>
+      </div>
+    </div>
+
+    <div class="hero-visual hero-visual-large contact-hero-image">
+      <img src={heroImage} alt="Quầy lễ tân Phòng khám Tái Tạo An Tâm" />
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Thông tin liên hệ" title="Thông tin liên hệ Phòng khám" />
+    <div class="contact-grid">
+      <div class="contact-stack">
+        {contactCards.map((card) => (
+          <article class="info-card contact-info-card">
+            <p class="contact-info-title">{card.title}</p>
+            <h3>{card.value}</h3>
+            <p>{card.text}</p>
+            <a href={card.link}>{card.action} →</a>
+          </article>
+        ))}
+
+        <article class="page-card contact-map-card">
+          <p class="contact-map-label">Bản đồ chỉ đường</p>
+          <img src="/assets/contact-facility-1.png" alt="Không gian phòng khám" />
+          <a class="button button-secondary" href="https://maps.google.com">Mở Google Maps</a>
+        </article>
+      </div>
+
+      <LeadForm
+        title="Đặt lịch tư vấn với chuyên gia"
+        description="Vui lòng điền đầy đủ thông tin, chúng tôi sẽ liên hệ hỗ trợ bạn sớm nhất."
+        intro="Ưu tiên phản hồi trong giờ làm việc"
+        submitLabel="Gửi yêu cầu tư vấn"
+      />
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Các cách liên hệ khác" title="Các cách liên hệ khác" align="center" />
+    <div class="card-grid contact-method-grid">
+      {contactMethods.map((method) => (
+        <article class="info-card info-card-center contact-method-card">
+          <h3>{method.title}</h3>
+          <p class="contact-method-value">{method.value}</p>
+          <p>{method.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="FAQ nhanh" title="Câu hỏi nhanh trước khi đặt lịch" />
+    <div class="card-grid contact-faq-grid">
+      {quickFaq.map((item) => (
+        <details class="faq-item contact-faq-item" open={item.question === quickFaq[0].question}>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="contact-banner">
+    <div>
+      <p class="eyebrow">Cần hỗ trợ nhanh?</p>
+      <h2>Gọi ngay hotline để được tư vấn trực tiếp</h2>
+      <p>Đội ngũ tư vấn luôn sẵn sàng hỗ trợ bạn 24/7.</p>
+    </div>
+    <div class="contact-banner-actions">
+      <a class="button button-primary" href="tel:1900123456">1900 1234 56</a>
+      <a class="button button-secondary" href="#lien-he">Gửi yêu cầu tư vấn</a>
+    </div>
+  </section>
+</ClinicLayout>

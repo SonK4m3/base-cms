@@ -1,0 +1,89 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { clinicSite } from "../data/site";
+import "../styles/global.css";
+
+const name = Astro.url.searchParams.get("name");
+const service = Astro.url.searchParams.get("service");
+const timeframe = Astro.url.searchParams.get("timeframe");
+const source = Astro.url.searchParams.get("source");
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Cảm ơn`}
+  description="Trang cảm ơn sau khi khách hàng gửi yêu cầu tư vấn"
+  canonical="https://taitaoantam.vn/thank-you/"
+  noindex={true}
+  activeHref="/lien-he"
+>
+  <section class="page-hero page-hero-slim thank-you-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Gửi yêu cầu thành công</p>
+      <h1>
+        {name ? `Cảm ơn ${name},` : "Cảm ơn bạn,"} chúng tôi đã nhận được thông tin của bạn.
+      </h1>
+      <p class="hero-text">
+        Đội ngũ {clinicSite.name} sẽ liên hệ trong giờ làm việc để xác nhận nhu cầu, sàng lọc ban đầu và sắp xếp hướng tư vấn phù hợp.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/lien-he">Quay lại trang liên hệ</a>
+        <a class="button button-secondary" href="/">Về trang chủ</a>
+      </div>
+    </div>
+    <div class="hero-visual hero-visual-note">
+      <h2>Thông tin đã ghi nhận</h2>
+      <ul>
+        {service ? <li>Dịch vụ quan tâm: {service}</li> : <li>Dịch vụ quan tâm: Đã ghi nhận</li>}
+        {timeframe ? <li>Khung giờ mong muốn: {timeframe}</li> : <li>Khung giờ mong muốn: Sẽ xác nhận lại</li>}
+        {source ? <li>Nguồn gửi form: {source}</li> : null}
+        <li>Hotline hỗ trợ: {clinicSite.hotline}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-block thank-you-grid">
+    <article class="page-card">
+      <SectionHeading eyebrow="Bước tiếp theo" title="Bạn có thể làm gì ngay bây giờ?" />
+      <ul class="info-list">
+        <li>Giữ máy để đội ngũ liên hệ lại trong khung giờ làm việc</li>
+        <li>Xem thêm FAQ để hiểu trước các câu hỏi thường gặp</li>
+        <li>Đọc blog chuyên môn nếu bạn muốn chuẩn bị kỹ hơn</li>
+      </ul>
+    </article>
+
+    <article class="page-card">
+      <SectionHeading eyebrow="Liên hệ nhanh" title="Kênh hỗ trợ chính" />
+      <ul class="info-list">
+        <li>Hotline: {clinicSite.hotline}</li>
+        <li>Địa chỉ: {clinicSite.address}</li>
+        <li>Giờ làm việc: {clinicSite.hours}</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="button button-primary" href={`tel:${clinicSite.hotline.replace(/\s+/g, "")}`}>Gọi ngay</a>
+        <a class="button button-secondary" href="/faq">Xem FAQ</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Trang quan trọng" title="Đi tiếp trong hành trình nội dung" />
+    <div class="route-grid">
+      <article class="route-card">
+        <h3>Đội ngũ bác sĩ</h3>
+        <p>Xem hồ sơ, chuyên môn và vai trò biên tập của từng bác sĩ.</p>
+        <a class="button button-secondary" href="/bac-si">Mở trang bác sĩ</a>
+      </article>
+      <article class="route-card">
+        <h3>Blog kiến thức</h3>
+        <p>Đọc bài viết chuyên môn, hướng dẫn và nội dung SEO/authority.</p>
+        <a class="button button-secondary" href="/blog">Đi tới blog</a>
+      </article>
+      <article class="route-card">
+        <h3>Phương pháp</h3>
+        <p>Khám phá cách phòng khám trình bày dịch vụ và quy trình tư vấn.</p>
+        <a class="button button-secondary" href="/phuong-phap-dieu-tri">Xem phương pháp</a>
+      </article>
+    </div>
+  </section>
+</ClinicLayout>

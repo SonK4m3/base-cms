@@ -1,0 +1,47 @@
+{
+  "kind": "single-type",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site setting",
+    "description": "Global clinic and site settings"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "clinicName": {
+      "type": "string",
+      "required": true
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "hotline": {
+      "type": "string"
+    },
+    "workingHours": {
+      "type": "string"
+    },
+    "bookingUrl": {
+      "type": "string"
+    },
+    "facebookUrl": {
+      "type": "string"
+    },
+    "zaloUrl": {
+      "type": "string"
+    },
+    "seoDefaultTitle": {
+      "type": "string"
+    },
+    "seoDefaultDescription": {
+      "type": "text"
+    }
+  }
+}
+

@@ -1,0 +1,17 @@
+---
+const {
+  title = "Why patients trust this clinic",
+  items = [
+    "Reviewed by medical professionals",
+    "Clear service and doctor information",
+    "Fast contact options on mobile",
+    "Helpful content for symptoms and treatments"
+  ]
+} = Astro.props;
+---
+<section aria-labelledby="trust-signals">
+  <h2 id="trust-signals">{title}</h2>
+  <ul class="trust-list">
+    {items.map((item: string) => <li>{item}</li>)}
+  </ul>
+</section>

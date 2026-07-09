@@ -1,0 +1,66 @@
+services:
+  medical-web:
+    build:
+      context: ./apps/medical-web
+      target: runtime
+    env_file:
+      - ./.env
+    environment:
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL}
+      PUBLIC_STRAPI_URL: ${PUBLIC_STRAPI_URL}
+    restart: unless-stopped
+    depends_on:
+      - strapi
+
+  strapi:
+    build:
+      context: ./services/strapi-cms
+      target: runtime
+    env_file:
+      - ./.env
+      - ./services/strapi-cms/.env.production
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      HOST: ${HOST}
+      PORT: ${PORT}
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    env_file:
+      - ./.env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    depends_on:
+      - medical-web
+      - strapi
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

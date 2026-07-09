@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_shared_contact_links",
+  "info": {
+    "displayName": "Contact link",
+    "description": "A contact or booking CTA link"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "ghost"],
+      "default": "primary"
+    }
+  }
+}
+

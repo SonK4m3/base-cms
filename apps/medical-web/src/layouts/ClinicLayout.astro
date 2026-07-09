@@ -1,0 +1,30 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+
+const {
+  title = "Phòng khám Tạo An Tâm",
+  description = "Website phòng khám tế bào gốc và y học tái tạo",
+  canonical,
+  noindex,
+  ogType,
+  activeHref = "/",
+  structuredData
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  noindex={noindex}
+  ogType={ogType}
+  structuredData={structuredData}
+>
+  <SiteHeader activeHref={activeHref} />
+  <main class="page-shell">
+    <slot />
+  </main>
+  <SiteFooter />
+</BaseLayout>

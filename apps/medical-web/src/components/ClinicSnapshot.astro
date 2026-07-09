@@ -1,0 +1,18 @@
+---
+const {
+  name = "Base Clinic",
+  address = "123 Example Street, HCMC",
+  hotline = "1900 0000",
+  hours = "Mon-Sat 08:00-20:00"
+} = Astro.props;
+---
+<section aria-labelledby="clinic-snapshot">
+  <h2 id="clinic-snapshot">Clinic snapshot</h2>
+  <ul class="snapshot-list">
+    <li><strong>Clinic:</strong> {name}</li>
+    <li><strong>Address:</strong> {address}</li>
+    <li><strong>Hotline:</strong> {hotline}</li>
+    <li><strong>Hours:</strong> {hours}</li>
+  </ul>
+</section>
+

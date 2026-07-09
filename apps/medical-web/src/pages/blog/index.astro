@@ -1,0 +1,160 @@
+---
+import ClinicLayout from "../../layouts/ClinicLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { articleCards, clinicSite, researchEntries } from "../../data/site";
+import "../../styles/global.css";
+
+const heroImage = "/assets/contact-hero-reception.png";
+
+const categories = [
+  "Tất cả",
+  "Kiến thức y khoa",
+  "Hiểu đúng",
+  "Quy trình",
+  "Pháp lý & an toàn",
+  "Tin tức & sự kiện"
+];
+
+const relatedTopics = [
+  "Tế bào gốc trong phục hồi mô và khớp",
+  "Y học tái tạo trong hỗ trợ vận động",
+  "Cách đọc thông tin y khoa an toàn hơn",
+  "Giải đáp: Khi nào nên gặp bác sĩ trực tiếp?"
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://taitaoantam.vn/blog/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Bài viết blog chuyên môn",
+    itemListElement: articleCards.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.title,
+      url: `https://taitaoantam.vn/blog/${item.slug}/`
+    }))
+  }
+];
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Blog`}
+  description="Blog SEO/GEO và kiến thức chuyên môn"
+  activeHref="/blog"
+  structuredData={structuredData}
+>
+  <section class="page-hero page-hero-slim blog-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Trang chủ / Blog / Kiến thức</p>
+      <h1>Kiến thức & chuyên mục</h1>
+      <p class="hero-text">
+        Nội dung blog được cấu trúc theo hướng SEO, GEO và E-E-A-T: có chủ đề rõ ràng, có người duyệt nội dung, có nguồn tham khảo
+        và có liên kết sang hồ sơ bác sĩ, FAQ hoặc quy trình khi phù hợp.
+      </p>
+    </div>
+
+    <div class="hero-visual hero-visual-large blog-hero-image">
+      <img src={heroImage} alt="Không gian Phòng khám Tái Tạo An Tâm" />
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="faq-category-bar blog-category-bar">
+      {categories.map((item, index) => (
+        <a class={`faq-category-chip ${index === 0 ? "is-active" : ""}`} href="#blog">{item}</a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block blog-feature-wrap" id="blog">
+    <article class="blog-featured">
+      <img src={articleCards[0].image} alt={articleCards[0].title} />
+      <div class="blog-featured-copy">
+        <p class="blog-label">{articleCards[0].category.toUpperCase()}</p>
+        <h2>{articleCards[0].title}</h2>
+        <p>{articleCards[0].description}</p>
+        <div class="blog-meta">
+          <span>{articleCards[0].date}</span>
+          <span>{articleCards[0].readTime}</span>
+          <span>Duyệt nội dung: {articleCards[0].reviewer}</span>
+        </div>
+        <a class="button button-primary" href={`/blog/${articleCards[0].slug}`}>Xem bài viết</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="blog-layout">
+    <div class="blog-main">
+      <SectionHeading eyebrow="Bài viết mới nhất" title="Bài viết mới nhất" />
+      <div class="blog-grid">
+        {articleCards.map((post) => (
+          <article class="blog-card">
+            <img src={post.image} alt={post.title} />
+            <div class="blog-card-body">
+              <p class="blog-card-tag">{post.tag}</p>
+              <h3>{post.title}</h3>
+              <p>{post.description}</p>
+              <div class="blog-meta">
+                <span>{post.date}</span>
+                <span>{post.readTime}</span>
+              </div>
+              <p class="article-credit">Biên tập: {post.author} · Duyệt bởi: {post.reviewer}</p>
+              <p class="article-credit">Intent: {post.primaryIntent} · Từ khóa: {post.keywords.join(", ")}</p>
+              <a class="button button-primary" href={`/blog/${post.slug}`}>Xem bài viết</a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="blog-pagination">
+        <span class="is-active">1</span>
+        <span>2</span>
+        <span>3</span>
+      </div>
+    </div>
+
+    <aside class="blog-sidebar">
+      <article class="page-card blog-side-card">
+        <SectionHeading eyebrow="Chuyên đề nổi bật" title="Chuyên đề nổi bật" />
+        <ul class="info-list">
+          {relatedTopics.map((item) => <li>{item}</li>)}
+        </ul>
+        <a class="button button-secondary" href="/blog">Xem tất cả chuyên đề</a>
+      </article>
+
+      <article class="page-card blog-side-card">
+        <SectionHeading eyebrow="Tài liệu & nghiên cứu" title="Tài liệu & nghiên cứu" />
+        <ul class="info-list">
+          {researchEntries.map((item) => <li>{item.title}</li>)}
+        </ul>
+        <a class="button button-secondary" href="/nghien-cuu-cong-bo">Xem tất cả tài liệu</a>
+      </article>
+
+      <article class="page-card blog-side-card">
+        <SectionHeading eyebrow="Tín hiệu authority" title="Chuẩn biên tập nội dung" />
+        <ul class="info-list">
+          <li>Mỗi bài viết có chủ đề, từ khóa và mục tiêu tìm kiếm rõ ràng</li>
+          <li>Có tác giả biên tập và bác sĩ duyệt nội dung</li>
+          <li>Ưu tiên liên kết sang FAQ, hồ sơ bác sĩ và quy trình liên quan</li>
+          <li>Cập nhật ngày chỉnh sửa để tăng độ tin cậy thông tin</li>
+        </ul>
+      </article>
+
+      <article class="page-card blog-side-card blog-newsletter">
+        <SectionHeading eyebrow="Đăng ký nhận tin" title="Đăng ký nhận tin" />
+        <p>Nhận kiến thức y khoa mới, chương trình tư vấn và nội dung cập nhật từ phòng khám.</p>
+        <input type="email" placeholder="Nhập email của bạn" />
+        <a class="button button-primary" href="/lien-he">Đăng ký nhận tin</a>
+        <small>Chúng tôi cam kết bảo mật thông tin của bạn.</small>
+      </article>
+    </aside>
+  </section>
+</ClinicLayout>

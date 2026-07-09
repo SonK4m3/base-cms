@@ -1,0 +1,98 @@
+---
+import ClinicLayout from "../../layouts/ClinicLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { clinicSite, processSteps, faqItems } from "../../data/site";
+import { servicePages } from "../../data/seo";
+import "../../styles/global.css";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+      { "@type": "ListItem", position: 2, name: "Dịch vụ", item: "https://taitaoantam.vn/dich-vu/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Danh mục dịch vụ tư vấn",
+    itemListElement: servicePages.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.title,
+      url: `https://taitaoantam.vn/dich-vu/${item.slug}/`
+    }))
+  }
+];
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Dịch vụ`}
+  description="Danh mục dịch vụ tư vấn, quy trình và câu hỏi hỗ trợ chuyển đổi"
+  activeHref="/phuong-phap-dieu-tri"
+  structuredData={structuredData}
+>
+  <section class="page-hero page-hero-slim">
+    <div class="hero-copy">
+      <p class="eyebrow">Dịch vụ / pSEO</p>
+      <h1>Danh mục dịch vụ tư vấn được tổ chức theo search intent</h1>
+      <p class="hero-text">
+        Trang này giúp gom các nhu cầu tìm hiểu dịch vụ thành một hub rõ ràng: người đọc biết cần đọc gì, cần gặp ai và bước tiếp theo là gì.
+      </p>
+    </div>
+    <div class="hero-visual hero-visual-note">
+      <h2>Điểm mạnh của hub</h2>
+      <ul>
+        <li>Giảm nội dung rời rạc giữa blog và liên hệ</li>
+        <li>Gắn rõ dịch vụ với quy trình tư vấn</li>
+        <li>Hỗ trợ internal link cho các trang chi tiết</li>
+        <li>Tăng tính hữu ích thay vì chỉ quảng cáo</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Danh mục dịch vụ" title="Các trang dịch vụ nên có trong bản đầu" />
+    <div class="service-grid">
+      {servicePages.map((item) => (
+        <article class="feature-card">
+          <p class="doctor-eyebrow">{item.keyword}</p>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          <p class="article-credit">{item.overview}</p>
+          <a class="button button-primary" href={`/dich-vu/${item.slug}`}>Xem trang chi tiết</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="dual-panel">
+    <article class="section-block">
+      <SectionHeading eyebrow="Quy trình" title="Dịch vụ nên gắn với bước nào trong hành trình?" />
+      <div class="process-grid process-grid-full">
+        {processSteps.map((step, index) => (
+          <article class="process-card">
+            <div class="step-number">{index + 1}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="section-block">
+      <SectionHeading eyebrow="FAQ" title="Câu hỏi cần thêm vào trang dịch vụ" />
+      <div class="faq-list">
+        {faqItems.slice(0, 4).map((item) => (
+          <details class="faq-item">
+            <summary>{item.question}</summary>
+            <p>{item.shortAnswer}</p>
+            <small class="faq-reviewed">Duyệt bởi: {item.reviewedBy}</small>
+          </details>
+        ))}
+      </div>
+    </article>
+  </section>
+</ClinicLayout>

@@ -1,0 +1,150 @@
+---
+import SeoHead from "../components/SeoHead.astro";
+import ContactDialog from "../components/ContactDialog.astro";
+import FloatingContactDock from "../components/FloatingContactDock.astro";
+import StickyContactBar from "../components/StickyContactBar.astro";
+
+const {
+  title = "Base CMS",
+  description = "Medical CMS and SEO content platform",
+  canonical,
+  noindex,
+  ogType,
+  structuredData
+} = Astro.props;
+---
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <SeoHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      noindex={noindex}
+      ogType={ogType}
+      structuredData={structuredData}
+    />
+  </head>
+  <body>
+    <slot />
+    <ContactDialog />
+    <FloatingContactDock />
+    <StickyContactBar />
+    <script is:inline>
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const sectionSelectors = [
+          ".page-shell > *",
+          ".page-shell .section-heading",
+          ".page-shell .hero-features > *",
+          ".page-shell .card-grid > *",
+          ".page-shell .doctor-strip > *",
+          ".page-shell .doctor-showcase-grid > *",
+          ".page-shell .process-grid > *",
+          ".page-shell .faq-list > *",
+          ".page-shell .article-grid > *",
+          ".page-shell .blog-grid > *",
+          ".page-shell .contact-stack > *",
+          ".page-shell .gallery-grid > *",
+          ".page-shell .testimonial-grid > *",
+          ".page-shell .faq-category-bar > *",
+          ".page-shell .cta-benefits > *",
+          ".page-shell .facility-grid > *",
+          ".page-shell .related-list > *",
+          ".page-shell .faq-side-list > *",
+          ".page-shell .contact-method-grid > *",
+          ".page-shell .inline-tags > *",
+          ".page-shell .price-table .price-row"
+        ];
+
+        const revealTargets = [...new Set(sectionSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
+
+        revealTargets.forEach((node, index) => {
+          node.classList.add("motion-ready");
+          if (node.parentElement) {
+            const siblings = [...node.parentElement.children];
+            const siblingIndex = siblings.indexOf(node);
+            node.style.setProperty("--reveal-delay", `${Math.min(siblingIndex, 8) * 55}ms`);
+          } else {
+            node.style.setProperty("--reveal-delay", `${Math.min(index, 8) * 55}ms`);
+          }
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("motion-in");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
+        );
+
+        revealTargets.forEach((node) => observer.observe(node));
+      }
+
+      const contactDialog = document.querySelector("[data-contact-dialog]");
+      const openers = document.querySelectorAll("[data-open-contact-dialog]");
+      const closers = document.querySelectorAll("[data-close-contact-dialog]");
+      const navToggle = document.querySelector("[data-nav-toggle]");
+      const siteHeader = document.querySelector(".site-header");
+      const siteNav = document.querySelector(".site-nav");
+
+      const openContactDialog = () => {
+        if (contactDialog instanceof HTMLDialogElement && !contactDialog.open) {
+          contactDialog.showModal();
+        }
+      };
+
+      const closeContactDialog = () => {
+        if (contactDialog instanceof HTMLDialogElement && contactDialog.open) {
+          contactDialog.close();
+        }
+      };
+
+      openers.forEach((button) => button.addEventListener("click", openContactDialog));
+      closers.forEach((button) => button.addEventListener("click", closeContactDialog));
+
+      if (contactDialog instanceof HTMLDialogElement) {
+        contactDialog.addEventListener("click", (event) => {
+          if (event.target === contactDialog) {
+            closeContactDialog();
+          }
+        });
+      }
+
+      if (navToggle instanceof HTMLButtonElement && siteHeader instanceof HTMLElement && siteNav instanceof HTMLElement) {
+        const closeNav = () => {
+          siteHeader.classList.remove("is-nav-open");
+          navToggle.setAttribute("aria-expanded", "false");
+        };
+
+        navToggle.addEventListener("click", () => {
+          const isOpen = siteHeader.classList.toggle("is-nav-open");
+          navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        siteNav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            if (window.matchMedia("(max-width: 980px)").matches) {
+              closeNav();
+            }
+          });
+        });
+
+        window.addEventListener("resize", () => {
+          if (!window.matchMedia("(max-width: 980px)").matches) {
+            closeNav();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

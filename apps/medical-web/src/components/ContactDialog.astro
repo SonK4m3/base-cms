@@ -1,0 +1,106 @@
+---
+import { clinicSite } from "../data/site";
+
+const hotlineDigits = clinicSite.hotline.replace(/\s+/g, "");
+---
+
+<dialog class="contact-dialog" data-contact-dialog aria-labelledby="contact-dialog-title">
+  <div class="contact-dialog-panel">
+    <button class="contact-dialog-close" type="button" data-close-contact-dialog aria-label="Đóng">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <div class="contact-dialog-grid">
+      <section class="contact-dialog-copy">
+        <p class="eyebrow">Liên hệ nhanh</p>
+        <h2 id="contact-dialog-title">Đặt lịch tư vấn cùng Phòng khám Tái Tạo An Tâm</h2>
+        <p>
+          Gửi thông tin ngắn gọn để đội ngũ sàng lọc ban đầu, ưu tiên bác sĩ phù hợp và phản hồi trong giờ làm việc.
+        </p>
+
+        <div class="contact-dialog-points">
+          <article>
+            <span>Hotline</span>
+            <strong>{clinicSite.hotline}</strong>
+          </article>
+          <article>
+            <span>Giờ làm việc</span>
+            <strong>Thứ 2 - Thứ 7: 07:30 - 17:00</strong>
+          </article>
+          <article>
+            <span>Địa chỉ</span>
+            <strong>{clinicSite.address}</strong>
+          </article>
+        </div>
+
+        <div class="contact-dialog-links">
+          <a class="button button-secondary" href={`tel:${hotlineDigits}`}>
+            <i class="bi bi-telephone"></i>
+            <span>Gọi hotline</span>
+          </a>
+          <a class="button button-secondary" href="https://zalo.me" target="_blank" rel="noreferrer">
+            <i class="bi bi-chat-dots-fill"></i>
+            <span>Zalo</span>
+          </a>
+          <a class="button button-secondary" href="/lien-he">
+            <i class="bi bi-geo-alt"></i>
+            <span>Xem trang liên hệ</span>
+          </a>
+        </div>
+      </section>
+
+      <form class="contact-dialog-form" method="GET" action="/thank-you">
+        <input type="hidden" name="source" value="dialog" />
+
+        <label>
+          Họ và tên*
+          <input name="name" type="text" autocomplete="name" placeholder="Nhập họ và tên" required />
+        </label>
+
+        <label>
+          Số điện thoại*
+          <input name="phone" type="tel" autocomplete="tel" placeholder="Nhập số điện thoại" required />
+        </label>
+
+        <label>
+          Dịch vụ quan tâm*
+          <select name="service" required>
+            <option value="">Chọn dịch vụ</option>
+            <option>Tư vấn tế bào gốc</option>
+            <option>Tư vấn y học tái tạo</option>
+            <option>Hội chẩn chuyên môn</option>
+            <option>Đánh giá trước can thiệp</option>
+          </select>
+        </label>
+
+        <label>
+          Khung giờ mong muốn
+          <select name="timeframe">
+            <option value="">Chọn khung giờ</option>
+            <option>Sáng</option>
+            <option>Chiều</option>
+            <option>Tối</option>
+          </select>
+        </label>
+
+        <label class="field-span-full">
+          Tình trạng cần tư vấn
+          <textarea
+            name="message"
+            rows="4"
+            placeholder="Mô tả ngắn gọn tình trạng, mục tiêu hoặc câu hỏi của bạn..."
+          ></textarea>
+        </label>
+
+        <label class="field-span-full lead-form-consent">
+          <input name="consent" type="checkbox" value="yes" required />
+          <span>Tôi đồng ý để phòng khám liên hệ và tư vấn theo thông tin đã cung cấp.</span>
+        </label>
+
+        <button class="button button-primary field-span-full contact-dialog-submit" type="submit">
+          Gửi yêu cầu tư vấn
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

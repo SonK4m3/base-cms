@@ -1,0 +1,29 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { clinicSite } from "../data/site";
+import "../styles/global.css";
+---
+
+<ClinicLayout title={`${clinicSite.name} | Điều khoản sử dụng`} description="Điều khoản sử dụng website" activeHref="/chinh-sach-bien-tap">
+  <section class="article-hero">
+    <p class="eyebrow">Điều khoản sử dụng</p>
+    <h1>Quy định sử dụng website và giới hạn trách nhiệm nội dung</h1>
+    <p>Trang này giúp xác định giới hạn của nội dung website, cách người dùng tương tác và nghĩa vụ đôi bên.</p>
+  </section>
+
+  <section class="section-block split-page">
+    <article class="page-card article-body">
+      <SectionHeading eyebrow="Nội dung" title="Các điều khoản chính" />
+      <ul class="info-list">
+        <li>Chỉ sử dụng nội dung trong phạm vi tham khảo</li>
+        <li>Không sao chép hoặc tái phân phối trái phép</li>
+        <li>Không coi nội dung website là chẩn đoán y tế</li>
+      </ul>
+    </article>
+    <aside class="page-card">
+      <SectionHeading eyebrow="Gợi ý" title="Bố cục nên có" />
+      <p>Chia điều khoản thành từng mục ngắn để người dùng đọc nhanh, dễ hiểu và dễ tra cứu.</p>
+    </aside>
+  </section>
+</ClinicLayout>

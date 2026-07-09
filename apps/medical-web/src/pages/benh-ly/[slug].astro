@@ -1,0 +1,109 @@
+---
+import ClinicLayout from "../../layouts/ClinicLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { articleCards, clinicSite, doctors, faqItems } from "../../data/site";
+import { conditionPages } from "../../data/seo";
+import "../../styles/global.css";
+
+export function getStaticPaths() {
+  return conditionPages.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const article = articleCards.find((entry) => entry.slug === item.articleSlug);
+const faq = faqItems.find((entry) => entry.slug === item.faqSlug);
+const doctor = doctors[0];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+      { "@type": "ListItem", position: 2, name: "Bệnh lý", item: "https://taitaoantam.vn/benh-ly/" },
+      { "@type": "ListItem", position: 3, name: item.title, item: `https://taitaoantam.vn/benh-ly/${item.slug}/` }
+    ]
+  }
+];
+---
+
+<ClinicLayout
+  title={`${item.title} | Bệnh lý`}
+  description={item.description}
+  canonical={`https://taitaoantam.vn/benh-ly/${item.slug}/`}
+  structuredData={structuredData}
+  activeHref="/faq"
+>
+  <section class="article-hero">
+    <div>
+      <p class="eyebrow">Bệnh lý / {item.keyword}</p>
+      <h1>{item.title}</h1>
+      <p>{item.description}</p>
+      <div class="inline-tags">
+        <span class="tag-pill">{item.keyword}</span>
+        {article ? <span class="tag-pill">Bài viết: {article.title}</span> : null}
+        {faq ? <span class="tag-pill">FAQ: {faq.question}</span> : null}
+      </div>
+    </div>
+    <article class="page-card article-body">
+      <SectionHeading eyebrow="Lưu ý" title="Trang này phục vụ mục đích gì?" />
+      <p>{item.overview}</p>
+      <ul class="mini-list">
+        {item.signs.map((sign) => <li>{sign}</li>)}
+      </ul>
+      <p class="notice notice-soft">Nội dung chỉ mang tính tham khảo, không thay thế chẩn đoán hoặc quyết định điều trị của bác sĩ.</p>
+    </article>
+  </section>
+
+  <section class="split-grid">
+    <article class="section-block">
+      <SectionHeading eyebrow="Hướng tiếp cận" title="Người đọc nên làm gì tiếp theo?" />
+      <div class="faq-list">
+        {item.nextSteps.map((step) => (
+          <article class="faq-item">
+            <h3>{step}</h3>
+            <p>Điểm này giúp nối từ ý định tìm hiểu sang hành động hữu ích: đọc thêm, kiểm tra FAQ hoặc đặt lịch tư vấn.</p>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="section-block">
+      <SectionHeading eyebrow="Chuyên gia" title="Bác sĩ nên được gắn với cụm này" />
+      <article class="doctor-card doctor-card-inline">
+        <img src={doctor.image} alt={doctor.name} />
+        <div>
+          <p class="doctor-eyebrow">{doctor.title}</p>
+          <h3>{doctor.name}</h3>
+          <p>{doctor.profileFocus}</p>
+          <p class="doctor-credential">{doctor.specialty}</p>
+        </div>
+        <a class="button button-primary" href={`/bac-si/${doctor.slug}`}>Xem hồ sơ</a>
+      </article>
+      {article ? (
+        <article class="page-card article-body">
+          <SectionHeading eyebrow="Bài viết liên quan" title="Nội dung nên đọc thêm" />
+          <h3>{article.title}</h3>
+          <p>{article.description}</p>
+          <a class="button button-secondary" href={`/blog/${article.slug}`}>Đọc bài viết</a>
+        </article>
+      ) : null}
+    </article>
+  </section>
+
+  {faq ? (
+    <section class="section-block">
+      <SectionHeading eyebrow="FAQ liên quan" title="Câu hỏi nên gắn cho trang này" />
+      <details class="faq-item" open>
+        <summary>{faq.question}</summary>
+        <p>{faq.answer}</p>
+      </details>
+    </section>
+  ) : null}
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Kêu gọi hành động" title="Nếu còn băn khoăn, hãy đặt lịch tư vấn" />
+    <p>{clinicSite.name} sẽ giúp bạn hiểu đúng thông tin và hướng đi phù hợp trước khi quyết định bước tiếp theo.</p>
+    <a class="button button-primary" href="/lien-he">Đi tới trang liên hệ</a>
+  </section>
+</ClinicLayout>

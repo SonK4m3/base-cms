@@ -1,0 +1,7 @@
+{
+  "name": "@base-cms/medical-schema",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts"
+}
+

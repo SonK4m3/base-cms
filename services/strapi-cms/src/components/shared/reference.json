@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_references",
+  "info": {
+    "displayName": "Reference",
+    "description": "A medical reference or source citation"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
+

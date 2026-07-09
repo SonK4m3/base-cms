@@ -1,0 +1,17 @@
+---
+import { clinicSite } from "../data/site";
+
+const hotlineDigits = clinicSite.hotline.replace(/\s+/g, "");
+---
+
+<div class="floating-contact-dock" aria-label="Liên hệ nổi">
+  <a class="floating-contact-button" href={`tel:${hotlineDigits}`} aria-label={`Gọi hotline ${clinicSite.hotline}`}>
+    <i class="bi bi-telephone"></i>
+  </a>
+  <a class="floating-contact-button floating-contact-zalo" href="https://zalo.me" target="_blank" rel="noreferrer">
+    <i class="bi bi-chat-dots-fill"></i>
+  </a>
+  <button class="floating-contact-button floating-contact-book" type="button" data-open-contact-dialog aria-label="Đặt lịch tư vấn">
+    <i class="bi bi-calendar2-check"></i>
+  </button>
+</div>

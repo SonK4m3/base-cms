@@ -1,0 +1,214 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { clinicSite, faqItems, articleCards, doctors } from "../data/site";
+import "../styles/global.css";
+
+const heroImage = "/assets/contact-hero-reception.png";
+
+const categories = ["Tất cả", ...new Set(faqItems.map((item) => item.category))];
+const featuredQuestions = faqItems.slice(0, 5);
+const relatedArticles = articleCards.map((item) => ({
+  title: item.title,
+  date: item.date,
+  reviewer: item.reviewer,
+  slug: item.slug
+}));
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+    { "@type": "ListItem", position: 2, name: "FAQ", item: "https://taitaoantam.vn/faq/" }
+  ]
+};
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer
+    }
+  }))
+};
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | FAQ`}
+  description="Câu hỏi thường gặp về tế bào gốc và y học tái tạo"
+  activeHref="/faq"
+  structuredData={[breadcrumbStructuredData, faqStructuredData]}
+>
+  <section class="page-hero page-hero-slim faq-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">FAQ / Câu hỏi thường gặp</p>
+      <h1>Câu hỏi thường gặp</h1>
+      <p class="hero-text">
+        Trang FAQ được cấu trúc để trả lời các thắc mắc nhạy cảm theo cách ngắn gọn, đúng phạm vi và có người duyệt nội dung. Đây là lớp nội dung
+        quan trọng để tăng trust, SEO và hỗ trợ AI hiểu đúng ngữ cảnh website y tế.
+      </p>
+    </div>
+
+    <div class="hero-visual hero-visual-large faq-hero-image">
+      <img src={heroImage} alt="Không gian tiếp đón Phòng khám Tái Tạo An Tâm" />
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="faq-category-bar">
+      {categories.map((item, index) => (
+        <a class={`faq-category-chip ${index === 0 ? "is-active" : ""}`} href="#faq">{item}</a>
+      ))}
+    </div>
+  </section>
+
+  <section class="faq-layout" id="faq">
+    <div class="faq-main">
+      <SectionHeading eyebrow="Danh mục trọng tâm" title="Nhóm câu hỏi chính" />
+      <div class="faq-list">
+        {faqItems.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+            <small class="faq-reviewed">
+              Danh mục: {item.category} · Trả lời ngắn: {item.shortAnswer} · Duyệt bởi: {item.reviewedBy} · Cập nhật: {item.lastReviewedAt}
+            </small>
+            <small class="faq-reviewed">
+              Bác sĩ liên quan: {doctors.find((doctor) => doctor.slug === item.relatedDoctorSlug)?.name ?? item.reviewedBy} · Bài viết liên quan:{" "}
+              {articleCards.find((article) => article.slug === item.relatedArticleSlug)?.title ?? "Kiến thức chuyên mục"}
+            </small>
+          </details>
+        ))}
+      </div>
+
+      <SectionHeading eyebrow="Tại sao phần này quan trọng?" title="Vai trò của FAQ với authority y tế" />
+      <div class="faq-list">
+        <article class="page-card">
+          <ul class="info-list">
+            <li>Trả lời trực tiếp các truy vấn tìm kiếm có ý định cao</li>
+            <li>Giảm cảm giác mơ hồ trước khi khách hàng đặt lịch tư vấn</li>
+            <li>Tạo khối nội dung dễ trích xuất cho AI và rich results</li>
+            <li>Liên kết tự nhiên sang blog, quy trình và hồ sơ bác sĩ liên quan</li>
+          </ul>
+        </article>
+        <article class="page-card">
+          <SectionHeading eyebrow="Trang trụ" title="Trang nên đọc tiếp" />
+          <div class="faq-side-list">
+            <a href="/blog">Blog kiến thức</a>
+            <a href="/nghien-cuu-cong-bo">Nghiên cứu & công bố</a>
+            <a href="/bac-si">Đội ngũ bác sĩ</a>
+            <a href="/phuong-phap-dieu-tri">Phương pháp</a>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <aside class="faq-sidebar">
+      <article class="page-card faq-side-card">
+        <SectionHeading eyebrow="Câu hỏi nổi bật" title="Câu hỏi nổi bật" />
+        <div class="faq-side-list">
+          {featuredQuestions.map((item) => <a href="#faq">{item.question}</a>)}
+        </div>
+        <a class="button button-secondary" href="/faq">Xem tất cả câu hỏi</a>
+      </article>
+
+      <article class="page-card faq-side-card">
+        <SectionHeading eyebrow="Bài viết liên quan" title="Bài viết liên quan" />
+        <div class="related-list">
+          {relatedArticles.map((item) => (
+            <a class="related-item" href={`/blog/${item.slug}`}>
+              <span>{item.title}</span>
+              <small>{item.date} · Duyệt bởi: {item.reviewer}</small>
+            </a>
+          ))}
+        </div>
+        <a class="button button-secondary" href="/blog">Xem tất cả bài viết</a>
+      </article>
+
+      <article class="page-card faq-side-card faq-contact-card">
+        <SectionHeading eyebrow="Liên hệ tư vấn nhanh" title="Liên hệ tư vấn nhanh" />
+        <p>Đội ngũ chuyên viên luôn sẵn sàng tiếp nhận câu hỏi và chuyển hồ sơ đến bác sĩ phù hợp.</p>
+        <div class="faq-contact-stack">
+          <div>
+            <span>Hotline</span>
+            <strong>{clinicSite.hotline}</strong>
+          </div>
+          <div>
+            <span>Zalo OA</span>
+            <strong>Tái Tạo An Tâm</strong>
+          </div>
+          <div>
+            <span>Giờ làm việc</span>
+            <strong>Thứ 2 - Thứ 7 / Chủ nhật buổi sáng</strong>
+          </div>
+        </div>
+        <a class="button button-primary" href="/lien-he">Đặt lịch câu hỏi ngay</a>
+      </article>
+
+      <article class="page-card faq-side-card">
+        <SectionHeading eyebrow="Authority" title="Hồ sơ bác sĩ liên quan" />
+        <div class="faq-side-list">
+          {doctors.map((doctor) => (
+            <a href={`/bac-si/${doctor.slug}`}>{doctor.name}</a>
+          ))}
+        </div>
+      </article>
+    </aside>
+  </section>
+
+  <section class="section-block faq-bottom">
+    <article class="faq-bottom-copy">
+      <p class="eyebrow">Bạn còn thắc mắc?</p>
+      <h2>Đặt lịch tư vấn miễn phí sơ bộ ngay hôm nay</h2>
+      <ul class="info-list">
+        <li>Tư vấn 1:1 cùng bác sĩ hoặc điều phối chuyên môn phù hợp</li>
+        <li>Đánh giá sơ bộ mục tiêu sức khỏe và hồ sơ nền</li>
+        <li>Đề xuất bước tiếp theo rõ ràng, không hứa hẹn quá mức</li>
+      </ul>
+      <div class="hotline-box faq-hotline">
+        <span>Gọi hotline:</span>
+        <strong>{clinicSite.hotline}</strong>
+      </div>
+    </article>
+
+    <form class="faq-mini-form" method="GET" action="/thank-you">
+      <input type="hidden" name="source" value="faq" />
+      <label>
+        Họ và tên*
+        <input name="name" type="text" placeholder="Nhập họ và tên" required />
+      </label>
+      <label>
+        Số điện thoại*
+        <input name="phone" type="tel" placeholder="Nhập số điện thoại" required />
+      </label>
+      <label>
+        Chọn dịch vụ quan tâm*
+        <select name="service" required>
+          <option value="">Chọn dịch vụ</option>
+          <option>Tư vấn tế bào gốc</option>
+          <option>Tư vấn y học tái tạo</option>
+          <option>Hội chẩn chuyên môn</option>
+        </select>
+      </label>
+      <label>
+        Thời gian mong muốn
+        <select name="timeframe">
+          <option value="">Chọn ngày/giờ bất kỳ</option>
+          <option>Sáng</option>
+          <option>Chiều</option>
+          <option>Tối</option>
+        </select>
+      </label>
+      <label class="field-span-full lead-form-consent">
+        <input name="consent" type="checkbox" value="yes" required />
+        <span>Tôi đồng ý cho {clinicSite.name} liên hệ để tư vấn và đặt lịch.</span>
+      </label>
+      <button class="button button-primary field-span-full" type="submit">Gửi yêu cầu tư vấn</button>
+    </form>
+  </section>
+</ClinicLayout>

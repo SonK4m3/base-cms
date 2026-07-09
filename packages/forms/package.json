@@ -1,0 +1,7 @@
+{
+  "name": "@base-cms/forms",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts"
+}
+

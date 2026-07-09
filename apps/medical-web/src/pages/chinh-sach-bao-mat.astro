@@ -1,0 +1,33 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { clinicSite } from "../data/site";
+import "../styles/global.css";
+---
+
+<ClinicLayout title={`${clinicSite.name} | Chính sách bảo mật`} description="Chính sách bảo mật thông tin khách hàng" activeHref="/chinh-sach-bao-mat">
+  <section class="article-hero">
+    <p class="eyebrow">Chính sách bảo mật</p>
+    <h1>Giải thích cách xử lý thông tin cá nhân và y tế của khách hàng</h1>
+    <p>Chính sách này là nền tảng để khách hàng hiểu website thu thập, sử dụng và bảo vệ dữ liệu như thế nào.</p>
+  </section>
+
+  <section class="section-block split-page">
+    <article class="page-card article-body">
+      <SectionHeading eyebrow="Mục đích" title="Điểm cần nêu rõ" />
+      <ul class="info-list">
+        <li>Thông tin nào được thu thập</li>
+        <li>Mục đích sử dụng và liên hệ</li>
+        <li>Thời gian lưu trữ</li>
+        <li>Quyền của khách hàng</li>
+        <li>Cách liên hệ khi có thắc mắc</li>
+      </ul>
+    </article>
+    <aside class="page-card">
+      <SectionHeading eyebrow="Lưu ý" title="Nội dung bản đầu" />
+      <p>
+        Nên giữ văn phong ngắn gọn, dễ hiểu và không thay thế cho tư vấn pháp lý chuyên sâu nếu phòng khám cần.
+      </p>
+    </aside>
+  </section>
+</ClinicLayout>

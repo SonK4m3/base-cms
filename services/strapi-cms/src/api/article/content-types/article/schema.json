@@ -1,0 +1,112 @@
+{
+  "kind": "collection-type",
+  "collectionName": "articles",
+  "info": {
+    "singularName": "article",
+    "pluralName": "articles",
+    "displayName": "Article",
+    "description": "SEO and medical editorial article"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "body": {
+      "type": "richtext"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "category": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "json",
+      "default": []
+    },
+    "author": {
+      "type": "string"
+    },
+    "medicalReviewer": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["draft", "seo_review", "medical_review", "approved", "published", "needs_update", "archived"],
+      "default": "draft"
+    },
+    "publishedAtCustom": {
+      "type": "datetime"
+    },
+    "updatedAtCustom": {
+      "type": "datetime"
+    },
+    "reviewedAt": {
+      "type": "datetime"
+    },
+    "readingTime": {
+      "type": "integer"
+    },
+    "references": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.reference"
+    },
+    "faq": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.faq-item"
+    },
+    "disclaimer": {
+      "type": "text"
+    },
+    "seoTitle": {
+      "type": "string"
+    },
+    "seoDescription": {
+      "type": "text"
+    },
+    "canonicalUrl": {
+      "type": "string"
+    },
+    "noindex": {
+      "type": "boolean",
+      "default": false
+    },
+    "primaryTopic": {
+      "type": "string"
+    },
+    "relatedConditions": {
+      "type": "json",
+      "default": []
+    },
+    "relatedServices": {
+      "type": "json",
+      "default": []
+    },
+    "relatedArticles": {
+      "type": "json",
+      "default": []
+    },
+    "internalLinkSuggestions": {
+      "type": "json",
+      "default": []
+    }
+  }
+}
+

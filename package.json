@@ -1,0 +1,14 @@
+{
+  "name": "base-cms",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm dev:web",
+    "dev:web": "pnpm --filter @base-cms/medical-web dev",
+    "dev:cms": "pnpm --filter @base-cms/strapi-cms develop",
+    "build": "pnpm build:web && pnpm build:cms",
+    "build:web": "pnpm --filter @base-cms/medical-web build",
+    "build:cms": "pnpm --filter @base-cms/strapi-cms build",
+    "lint": "echo \"Add workspace linting when dependencies are installed\""
+  }
+}

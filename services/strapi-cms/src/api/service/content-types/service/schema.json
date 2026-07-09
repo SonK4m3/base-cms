@@ -1,0 +1,42 @@
+{
+  "kind": "collection-type",
+  "collectionName": "services",
+  "info": {
+    "singularName": "service",
+    "pluralName": "services",
+    "displayName": "Service",
+    "description": "Medical service page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "summary": {
+      "type": "text"
+    },
+    "details": {
+      "type": "richtext"
+    },
+    "bookingCtas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.contact-link"
+    },
+    "seoTitle": {
+      "type": "string"
+    },
+    "seoDescription": {
+      "type": "text"
+    }
+  }
+}
+

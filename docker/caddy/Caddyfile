@@ -1,0 +1,13 @@
+{
+  email {$CADDY_EMAIL}
+}
+
+{$PUBLIC_SITE_DOMAIN:taitaoantam.vn} {
+  encode zstd gzip
+  reverse_proxy medical-web:80
+}
+
+{$PUBLIC_CMS_DOMAIN:cms.taitaoantam.vn} {
+  encode zstd gzip
+  reverse_proxy strapi:1337
+}

@@ -1,0 +1,20 @@
+---
+import { clinicSite } from "../data/site";
+
+const hotlineDigits = clinicSite.hotline.replace(/\s+/g, "");
+---
+
+<nav class="mobile-contact-bar" aria-label="Liên hệ nhanh">
+  <a class="mobile-contact-bar-item" href={`tel:${hotlineDigits}`}>
+    <i class="bi bi-telephone"></i>
+    <span>Gọi ngay</span>
+  </a>
+  <button class="mobile-contact-bar-item mobile-contact-bar-primary" type="button" data-open-contact-dialog>
+    <i class="bi bi-calendar2-check"></i>
+    <span>Tư vấn</span>
+  </button>
+  <a class="mobile-contact-bar-item" href="/lien-he">
+    <i class="bi bi-geo-alt"></i>
+    <span>Liên hệ</span>
+  </a>
+</nav>

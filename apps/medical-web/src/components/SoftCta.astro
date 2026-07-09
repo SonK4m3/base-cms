@@ -1,0 +1,12 @@
+---
+const {
+  title = "Need help choosing the right service?",
+  description = "Leave your contact details and the clinic can get back to you with guidance.",
+  actionLabel = "Request a consultation"
+} = Astro.props;
+---
+<section aria-labelledby="soft-cta">
+  <h2 id="soft-cta">{title}</h2>
+  <p>{description}</p>
+  <button type="button" class="soft-cta-button">{actionLabel}</button>
+</section>

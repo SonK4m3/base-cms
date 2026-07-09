@@ -1,0 +1,14 @@
+---
+const {
+  eyebrow,
+  title,
+  description,
+  align = "left"
+} = Astro.props;
+---
+
+<div class:list={["section-heading", align === "left" ? "section-heading-left" : null]}>
+  {eyebrow ? <p class="eyebrow">{eyebrow}</p> : null}
+  <h2>{title}</h2>
+  {description ? <p>{description}</p> : null}
+</div>

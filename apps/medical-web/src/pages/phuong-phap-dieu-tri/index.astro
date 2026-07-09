@@ -1,0 +1,139 @@
+---
+import ClinicLayout from "../../layouts/ClinicLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { clinicSite, doctors, articleCards, faqItems, complianceCards } from "../../data/site";
+import { servicePages } from "../../data/seo";
+import "../../styles/global.css";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+      { "@type": "ListItem", position: 2, name: "Phương pháp", item: "https://taitaoantam.vn/phuong-phap-dieu-tri/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Nhóm phương pháp và dịch vụ tư vấn",
+    itemListElement: servicePages.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.title,
+      url: `https://taitaoantam.vn/dich-vu/${item.slug}/`
+    }))
+  }
+];
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Phương pháp`}
+  description="Nhóm phương pháp, dịch vụ tư vấn và nguyên tắc nội dung an toàn cho website"
+  activeHref="/phuong-phap-dieu-tri"
+  structuredData={structuredData}
+>
+  <section class="page-hero page-hero-slim">
+    <div class="hero-copy">
+      <p class="eyebrow">Phương pháp / Dịch vụ / pSEO</p>
+      <h1>Phương pháp và nhóm tư vấn cần có ở bản đầu</h1>
+      <p class="hero-text">
+        Trang này là hub tổng hợp để diễn giải đúng phạm vi tư vấn, giải thích khi nào nên mở rộng nội dung chi tiết và gắn sang các trang
+        dịch vụ, bác sĩ, FAQ và bài viết liên quan.
+      </p>
+    </div>
+    <div class="hero-visual hero-visual-note">
+      <h2>Nguyên tắc nội dung</h2>
+      <ul>
+        <li>Nói rõ phạm vi được phép</li>
+        <li>Không hứa hẹn kết quả tuyệt đối</li>
+        <li>Giải thích dễ hiểu cho khách hàng</li>
+        <li>Luôn có lưu ý an toàn và pháp lý</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Nhóm dịch vụ" title="Các trang dịch vụ nên gắn từ hub phương pháp" />
+    <div class="service-grid">
+      {servicePages.map((item) => (
+        <article class="feature-card">
+          <p class="doctor-eyebrow">{item.keyword}</p>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          <a class="button button-primary" href={`/dich-vu/${item.slug}`}>Mở trang dịch vụ</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="split-grid">
+    <article class="section-block">
+      <SectionHeading eyebrow="Bác sĩ" title="Bác sĩ nên được gắn với phương pháp" />
+      <div class="doctor-strip">
+        {doctors.map((doctor) => (
+          <article class="doctor-card doctor-card-inline">
+            <img src={doctor.image} alt={doctor.name} />
+            <div>
+              <p class="doctor-eyebrow">{doctor.title}</p>
+              <h3>{doctor.name}</h3>
+              <p>{doctor.profileFocus}</p>
+            </div>
+            <a class="button button-secondary" href={`/bac-si/${doctor.slug}`}>Xem hồ sơ</a>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="section-block">
+      <SectionHeading eyebrow="FAQ" title="Câu hỏi cần nối vào trang phương pháp" />
+      <div class="faq-list">
+        {faqItems.slice(0, 4).map((item) => (
+          <details class="faq-item">
+            <summary>{item.question}</summary>
+            <p>{item.shortAnswer}</p>
+            <small class="faq-reviewed">Duyệt bởi: {item.reviewedBy}</small>
+          </details>
+        ))}
+      </div>
+    </article>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Authority" title="Nội dung pháp lý và biên tập" />
+    <div class="card-grid compliance-grid">
+      {complianceCards.map((card) => (
+        <article class="info-card info-card-center">
+          <h3>{card.title}</h3>
+          <p>{card.description}</p>
+        </article>
+      ))}
+    </div>
+    <div class="notice notice-amber">
+      Danh mục phương pháp chi tiết sẽ được công bố sau khi được xác nhận bởi bộ phận chuyên môn và pháp lý.
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Blog" title="Bài viết nên gắn vào hub này" />
+    <div class="knowledge-feature-grid">
+      {articleCards.map((article) => (
+        <article class="knowledge-card">
+          <div class="knowledge-thumb" style={`background-image: linear-gradient(135deg, rgba(15, 127, 137, 0.84), rgba(10, 90, 110, 0.96)), url('${article.image}')`}>
+            <div class="knowledge-thumb-label">{article.tag}</div>
+          </div>
+          <p class="doctor-eyebrow">{article.category}</p>
+          <h3>{article.title}</h3>
+          <p>{article.description}</p>
+          <a class="button button-primary" href={`/blog/${article.slug}`}>Xem bài viết</a>
+        </article>
+      ))}
+      <article class="knowledge-links knowledge-links-panel">
+        <SectionHeading eyebrow="Điểm tiếp theo" title="Khi nào nên đi tiếp?" />
+        <p>Người đọc nên đi tiếp sang dịch vụ, bác sĩ hoặc liên hệ khi cần tư vấn 1:1.</p>
+        <a class="button button-primary" href="/lien-he">Đặt lịch tư vấn</a>
+      </article>
+    </div>
+  </section>
+</ClinicLayout>

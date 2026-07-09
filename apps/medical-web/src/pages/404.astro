@@ -1,0 +1,36 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import { clinicSite } from "../data/site";
+import "../styles/global.css";
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Không tìm thấy trang`}
+  description="Trang không tồn tại hoặc đã được di chuyển"
+  canonical="https://taitaoantam.vn/404/"
+  noindex={true}
+>
+  <section class="page-hero page-hero-slim thank-you-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">404</p>
+      <h1>Không tìm thấy trang bạn đang tìm.</h1>
+      <p class="hero-text">
+        Trang này có thể đã bị xóa, đổi đường dẫn hoặc chưa được triển khai. Bạn có thể quay về trang chủ hoặc tìm nội dung phù hợp từ các mục
+        chính bên dưới.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/">Về trang chủ</a>
+        <a class="button button-secondary" href="/lien-he">Liên hệ tư vấn</a>
+      </div>
+    </div>
+    <div class="hero-visual hero-visual-note">
+      <h2>Trang hữu ích</h2>
+      <ul>
+        <li><a href="/gioi-thieu">Giới thiệu</a></li>
+        <li><a href="/bac-si">Đội ngũ bác sĩ</a></li>
+        <li><a href="/blog">Blog kiến thức</a></li>
+        <li><a href="/faq">Câu hỏi thường gặp</a></li>
+      </ul>
+    </div>
+  </section>
+</ClinicLayout>

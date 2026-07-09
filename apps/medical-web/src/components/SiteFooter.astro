@@ -1,0 +1,48 @@
+---
+import { clinicSite, primaryNav } from "../data/site";
+import { pseoHubLinks } from "../data/seo";
+---
+
+<footer class="site-footer">
+  <div class="footer-brand">
+    <img src={clinicSite.logoImage} alt={clinicSite.name} class="footer-logo" />
+    <p><i class="bi bi-geo-alt"></i><span>{clinicSite.address}</span></p>
+    <p><i class="bi bi-telephone"></i><span>Hotline: {clinicSite.hotline}</span></p>
+    <p><i class="bi bi-envelope"></i><span>Email: contact@taoantam.vn</span></p>
+    <p><i class="bi bi-globe2"></i><span>Website: www.taitaoantam.vn</span></p>
+  </div>
+
+  <div>
+    <h3>Thông tin pháp lý</h3>
+    <p><i class="bi bi-dot"></i><span>Số giấy phép hoạt động: 01234/HCM-GPHD</span></p>
+    <p><i class="bi bi-dot"></i><span>Phạm vi hoạt động chuyên môn: Tư vấn và hỗ trợ chăm sóc sức khỏe tái tạo</span></p>
+    <p><i class="bi bi-dot"></i><span>Người chịu trách nhiệm chuyên môn: BS.CKI. Nguyễn Minh Tuấn</span></p>
+    <p><i class="bi bi-dot"></i><span>Cập nhật lần cuối: 08/07/2026</span></p>
+  </div>
+
+  <div>
+    <h3>Liên kết nhanh</h3>
+    {primaryNav.map((item) => <p><i class="bi bi-chevron-right"></i><a href={item.href}>{item.label}</a></p>)}
+    {pseoHubLinks.map((item) => <p><i class="bi bi-chevron-right"></i><a href={item.href}>{item.label}</a></p>)}
+  </div>
+
+  <div>
+    <h3>Giờ làm việc</h3>
+    <p>Thứ 2 - Thứ 7</p>
+    <p>07:30 - 17:00</p>
+    <p>Chủ nhật</p>
+    <p>07:30 - 12:00</p>
+  </div>
+
+  <div>
+    <h3>Chính sách</h3>
+    <p><i class="bi bi-chevron-right"></i><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a></p>
+    <p><i class="bi bi-chevron-right"></i><a href="/chinh-sach-bien-tap">Điều khoản sử dụng</a></p>
+    <p><i class="bi bi-chevron-right"></i><a href="/chinh-sach-duyet-y-khoa">Chính sách duyệt y khoa</a></p>
+  </div>
+
+  <div class="site-footer-note">
+    <p>© 2026 {clinicSite.name}. All rights reserved.</p>
+    <p>Thông tin trên website chỉ mang tính tham khảo, không thay thế cho tư vấn, chẩn đoán hoặc điều trị trực tiếp từ bác sĩ.</p>
+  </div>
+</footer>

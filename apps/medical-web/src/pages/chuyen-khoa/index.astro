@@ -1,0 +1,121 @@
+---
+import ClinicLayout from "../../layouts/ClinicLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { clinicSite, doctors, articleCards, faqItems } from "../../data/site";
+import { specialtyPages } from "../../data/seo";
+import "../../styles/global.css";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: "https://taitaoantam.vn/" },
+      { "@type": "ListItem", position: 2, name: "Chuyên khoa", item: "https://taitaoantam.vn/chuyen-khoa/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Cụm chủ đề chuyên khoa",
+    itemListElement: specialtyPages.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.title,
+      url: `https://taitaoantam.vn/chuyen-khoa/${item.slug}/`
+    }))
+  }
+];
+---
+
+<ClinicLayout
+  title={`${clinicSite.name} | Chuyên khoa`}
+  description="Cụm chủ đề chuyên khoa, bác sĩ phụ trách và nội dung tư vấn liên quan"
+  activeHref="/bac-si"
+  structuredData={structuredData}
+>
+  <section class="page-hero page-hero-slim">
+    <div class="hero-copy">
+      <p class="eyebrow">Chuyên khoa / pSEO</p>
+      <h1>Cụm chuyên khoa và chủ đề tư vấn chuyên sâu</h1>
+      <p class="hero-text">
+        Trang này gom các chủ đề theo ngữ cảnh tìm kiếm để người đọc hiểu đúng nhóm tư vấn, biết bác sĩ nào phụ trách và đi tiếp sang
+        bài viết, FAQ hoặc hồ sơ chuyên gia phù hợp.
+      </p>
+    </div>
+    <div class="hero-visual hero-visual-note">
+      <h2>Cách dùng trang này</h2>
+      <ul>
+        <li>Chọn chủ đề phù hợp với nhu cầu tìm kiếm</li>
+        <li>Xem bác sĩ phụ trách nội dung</li>
+        <li>Đọc bài viết và FAQ liên quan trước khi đặt lịch</li>
+        <li>Chuyển sang trang liên hệ khi cần tư vấn 1:1</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Cụm chủ đề" title="Các chủ đề chuyên khoa nên có trong bản đầu" />
+    <div class="service-grid">
+      {specialtyPages.map((item) => {
+        const doctor = doctors.find((entry) => entry.slug === item.doctorSlug);
+
+        return (
+          <article class="feature-card">
+            <p class="doctor-eyebrow">{item.keyword}</p>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <p class="article-credit">{item.overview}</p>
+            {doctor ? <p class="article-credit">Bác sĩ liên quan: {doctor.name}</p> : null}
+            <a class="button button-primary" href={`/chuyen-khoa/${item.slug}`}>Xem trang chi tiết</a>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="split-grid">
+    <article class="section-block">
+      <SectionHeading eyebrow="Authority" title="Liên kết nội bộ nên đi kèm" />
+      <div class="faq-list">
+        {articleCards.map((article) => (
+          <article class="faq-item">
+            <h3>{article.title}</h3>
+            <p>{article.description}</p>
+            <small class="article-credit">Biên tập: {article.author} · Duyệt: {article.reviewer}</small>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="section-block">
+      <SectionHeading eyebrow="FAQ" title="Những câu hỏi thường gặp nên gắn vào hub" />
+      <div class="faq-list">
+        {faqItems.slice(0, 4).map((item) => (
+          <details class="faq-item">
+            <summary>{item.question}</summary>
+            <p>{item.shortAnswer}</p>
+            <small class="faq-reviewed">Duyệt bởi: {item.reviewedBy}</small>
+          </details>
+        ))}
+      </div>
+    </article>
+  </section>
+
+  <section class="section-block">
+    <SectionHeading eyebrow="Chuyên gia" title="Hồ sơ bác sĩ nên được link từ hub này" />
+    <div class="doctor-strip">
+      {doctors.map((doctor) => (
+        <article class="doctor-card doctor-card-inline">
+          <img src={doctor.image} alt={doctor.name} />
+          <div>
+            <p class="doctor-eyebrow">{doctor.title}</p>
+            <h3>{doctor.name}</h3>
+            <p>{doctor.profileFocus}</p>
+          </div>
+          <a class="button button-secondary" href={`/bac-si/${doctor.slug}`}>Xem hồ sơ</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</ClinicLayout>

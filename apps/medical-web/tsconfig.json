@@ -1,0 +1,12 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@base-cms/seo": ["../../packages/seo/src/index.ts"],
+      "@base-cms/medical-schema": ["../../packages/medical-schema/src/index.ts"],
+      "@base-cms/analytics": ["../../packages/analytics/src/index.ts"],
+      "@base-cms/forms": ["../../packages/forms/src/index.ts"]
+    }
+  }
+}

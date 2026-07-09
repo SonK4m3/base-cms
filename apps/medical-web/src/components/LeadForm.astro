@@ -1,0 +1,106 @@
+---
+const {
+  title = "Đặt lịch tư vấn",
+  description = "Điền thông tin, phòng khám sẽ liên hệ lại sớm.",
+  intro = "Phản hồi nhanh trong giờ làm việc",
+  submitLabel = "Gửi thông tin",
+  action = "/thank-you",
+  method = "GET"
+} = Astro.props;
+---
+
+<section class="lead-form-section" aria-labelledby="lead-form">
+  <div class="lead-form-header">
+    <div>
+      <p class="eyebrow">Đặt lịch tư vấn</p>
+      <h2 id="lead-form">{title}</h2>
+      <p>{description}</p>
+    </div>
+    <p class="lead-form-kicker">{intro}</p>
+  </div>
+
+  <form class="lead-form" method={method} action={action}>
+    <label>
+      Họ và tên*
+      <input name="name" type="text" autocomplete="name" placeholder="Nhập họ và tên" required />
+    </label>
+
+    <label>
+      Số điện thoại*
+      <input name="phone" type="tel" autocomplete="tel" placeholder="Nhập số điện thoại" required />
+    </label>
+
+    <label>
+      Độ tuổi*
+      <select name="age" required>
+        <option value="">Chọn độ tuổi</option>
+        <option>Dưới 18</option>
+        <option>18 - 24</option>
+        <option>25 - 34</option>
+        <option>35 - 44</option>
+        <option>45 - 54</option>
+        <option>55+</option>
+      </select>
+    </label>
+
+    <label>
+      Dịch vụ quan tâm*
+      <select name="service" required>
+        <option value="">Chọn dịch vụ</option>
+        <option>Tư vấn y học tái tạo</option>
+        <option>Tư vấn tế bào gốc</option>
+        <option>Đánh giá trước can thiệp</option>
+        <option>Theo dõi sau tư vấn</option>
+        <option>Hội chẩn chuyên môn</option>
+      </select>
+    </label>
+
+    <label class="field-span-full">
+      Tình trạng cần tư vấn*
+      <textarea
+        name="currentStatus"
+        rows="4"
+        placeholder="Mô tả ngắn gọn tình trạng, vấn đề hoặc câu hỏi bạn đang gặp phải..."
+        required
+      ></textarea>
+    </label>
+
+    <label>
+      Khung giờ liên hệ mong muốn*
+      <select name="timeframe" required>
+        <option value="">Chọn khung giờ</option>
+        <option>Sáng</option>
+        <option>Trưa</option>
+        <option>Chiều</option>
+        <option>Tối</option>
+      </select>
+    </label>
+
+    <label>
+      Mong muốn bác sĩ/chuyên gia
+      <select name="doctor">
+        <option value="">Chọn bác sĩ hoặc chuyên gia (nếu có)</option>
+        <option>BS.CKI. Nguyễn Minh Tuấn</option>
+        <option>ThS.BS. Trần Thu Hằng</option>
+        <option>TS.BS. Lê Quang Huy</option>
+        <option>Ưu tiên tư vấn viên phù hợp</option>
+      </select>
+    </label>
+
+    <label class="field-span-full lead-form-consent">
+      <input name="consent" type="checkbox" value="yes" required />
+      <span>Tôi đồng ý để Phòng khám Tái Tạo An Tâm liên hệ và tư vấn theo thông tin đã cung cấp.</span>
+    </label>
+
+    <p class="field-span-full lead-form-disclaimer">
+      Thông tin của bạn được dùng để liên hệ tư vấn. Nội dung tư vấn ban đầu không thay thế cho chẩn đoán hoặc chỉ
+      định điều trị của bác sĩ.
+    </p>
+
+    <div class="cf-turnstile field-span-full" data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY}></div>
+
+    <button type="submit" class="soft-cta-button field-span-full">{submitLabel}</button>
+  </form>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</section>

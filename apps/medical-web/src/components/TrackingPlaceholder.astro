@@ -1,0 +1,6 @@
+---
+const { provider = "GA4" } = Astro.props;
+---
+<script is:inline define:vars={{ provider }}>
+  window.__analyticsProvider = { provider };
+</script>

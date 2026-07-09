@@ -1,0 +1,35 @@
+---
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { clinicSite } from "../data/site";
+import "../styles/global.css";
+---
+
+<ClinicLayout title={`${clinicSite.name} | Chính sách duyệt y khoa`} description="Chính sách duyệt y khoa cho nội dung website" activeHref="/chinh-sach-duyet-y-khoa">
+  <section class="article-hero">
+    <p class="eyebrow">Chính sách duyệt y khoa</p>
+    <h1>Nội dung y tế cần được kiểm duyệt trước khi xuất bản</h1>
+    <p>
+      Đây là trang rất nên có để thể hiện website có quy trình duyệt nội dung, không đăng tải tùy tiện và
+      ưu tiên tính an toàn cho người dùng.
+    </p>
+  </section>
+
+  <section class="section-block split-page">
+    <article class="page-card article-body">
+      <SectionHeading eyebrow="Quy trình" title="Các bước duyệt nội dung" />
+      <ul class="info-list">
+        <li>Soạn thảo nội dung</li>
+        <li>Đối chiếu thông tin chuyên môn</li>
+        <li>Kiểm tra ngôn ngữ và pháp lý</li>
+        <li>Phê duyệt trước khi xuất bản</li>
+      </ul>
+    </article>
+    <aside class="page-card">
+      <SectionHeading eyebrow="Trách nhiệm" title="Người duyệt" />
+      <p>
+        Thông thường là bác sĩ phụ trách chuyên môn hoặc người được ủy quyền theo quy trình nội bộ của phòng khám.
+      </p>
+    </aside>
+  </section>
+</ClinicLayout>
