@@ -24,11 +24,30 @@
 
 ## Pages setup
 
-- Root directory: `apps/medical-web`
-- Build command: `pnpm build`
-- Output directory: `dist`
+### Official Pages Git integration setup
+
 - Production branch: `main`
 - Install command: `pnpm install --frozen-lockfile`
+- Build command: `pnpm build`
+- Build output directory: `apps/medical-web/dist`
+
+For monorepos, Cloudflare documents that the project `root directory` should be
+set explicitly when multiple projects live in one repository. If you keep the
+build running from the repository root because shared workspaces are required,
+do not add a separate custom deploy command.
+
+### Important
+
+If you are using Cloudflare Pages Git integration, remove any custom deploy
+command such as:
+
+```bash
+npx wrangler deploy
+```
+
+Pages already uploads the built assets after a successful build. A second
+`wrangler deploy` step is a Workers deploy command, not a Pages deploy command,
+and it is the direct cause of the workspace-root error in this repo.
 
 ## GitHub push flow
 
@@ -47,8 +66,8 @@ If the remote already exists, skip the `remote add` step and just push.
 
 ## Wrangler deploy flow
 
-This project deploys as a Cloudflare Pages site, so use a Pages deploy command,
-not the Worker command `wrangler deploy`.
+Use this only for direct upload CI or manual deployment. This is not needed for
+the standard Cloudflare Pages Git integration flow above.
 
 ```bash
 pnpm deploy:cf
@@ -67,12 +86,14 @@ Set this environment variable before deploying:
 CLOUDFLARE_PAGES_PROJECT_NAME=<your-pages-project-name>
 ```
 
-If your Cloudflare dashboard currently uses `npx wrangler deploy` as the custom
-deploy command, change it to:
+If you are using a custom CI system and need an explicit deploy command, the
+official Cloudflare Pages pattern is:
 
 ```bash
-pnpm deploy:cf
+npx wrangler pages deploy apps/medical-web/dist --project-name <your-pages-project>
 ```
+
+Do not use `npx wrangler deploy` for this site.
 
 ## Environment variables
 
