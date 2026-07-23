@@ -1,0 +1,9 @@
+---
+import NotexLayout from "../layouts/NotexLayout.astro";
+import { notexSite } from "../data/notex";
+const orgSchema = { "@type": "Organization", name: notexSite.name, url: notexSite.url, email: notexSite.email, description: notexSite.description };
+---
+<NotexLayout title="About Notex | A better layer for useful context" description="Learn what Notex is building and why source-aware AI notes matter." canonical="/about/" structuredData={[orgSchema]}>
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">About Notex</p><h1>AI should help people remember, explain, and act.</h1><p>Notex is building a context layer for work that happens in meetings, calls, interviews, and documents.</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-detail-grid"><div><h2>Our point of view</h2><p class="notex-lede">The most useful AI output is not the most confident paragraph. It is the answer that keeps its source close, makes uncertainty visible, and helps a person take the next step.</p></div><ul class="notex-list"><li><strong>Source-aware by default.</strong><br />Summaries should be easy to verify.</li><li><strong>Useful over impressive.</strong><br />A clear task is worth more than a clever sentence.</li><li><strong>Respect the workflow.</strong><br />People should not have to restructure their work around a tool.</li></ul></div></div></section>
+</NotexLayout>

@@ -1,0 +1,12 @@
+---
+import type { ContentSection } from "@base-cms/content";
+interface Props { sections: ContentSection[] }
+const { sections } = Astro.props;
+---
+{sections.map((section) => {
+  if (section.type === "answer-summary") return <section class="answer-panel">{section.heading && <h2>{section.heading}</h2>}<p>{section.text}</p></section>;
+  if (section.type === "rich-text") return <section class="prose">{section.heading && <h2>{section.heading}</h2>}<p>{section.html}</p></section>;
+  if (section.type === "feature-grid") return <section><h2>{section.heading}</h2><div class="card-grid">{section.items.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.description}</p></article>)}</div></section>;
+  if (section.type === "cta") return <section class="answer-panel"><h2>{section.heading}</h2><p>{section.text}</p><a class="button" href={section.href} data-analytics-event="cta_click">{section.label}</a></section>;
+  return null;
+})}

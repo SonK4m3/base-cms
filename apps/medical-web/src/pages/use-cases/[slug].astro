@@ -1,0 +1,13 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexSite, notexUseCases } from "../../data/notex";
+import { createBreadcrumbSchema } from "@base-cms/site-core";
+export function getStaticPaths() { return notexUseCases.map((item) => ({ params: { slug: item.slug }, props: { item } })); }
+const { item } = Astro.props;
+const schema = { "@type": "Article", headline: item.title, description: item.description, author: { "@type": "Organization", name: notexSite.name } };
+const breadcrumbs = createBreadcrumbSchema([{ name: "Notex", url: notexSite.url }, { name: "Use cases", url: `${notexSite.url}use-cases/` }, { name: item.title, url: `${notexSite.url}use-cases/${item.slug}/` }]);
+---
+<NotexLayout title={`${item.title} | Notex`} description={item.description} canonical={`/use-cases/${item.slug}/`} structuredData={[schema, breadcrumbs]}>
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-breadcrumb"><a href="/use-cases/">Use cases</a> / {item.label}</p><p class="notex-eyebrow">{item.label}</p><h1>{item.title}</h1><p>{item.description}</p><div class="notex-answer">{item.proof}</div></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-detail-grid"><div><h2>A calmer path from conversation to action.</h2><p class="notex-lede">Capture what matters, make the context searchable, and give the next person a useful starting point.</p><a class="notex-button" href="/pricing/">Start free</a></div><ul class="notex-list">{item.features.map((feature) => <li>{feature}</li>)}</ul></div></div></section>
+</NotexLayout>

@@ -1,47 +1,25 @@
 {
   "kind": "single-type",
   "collectionName": "site_settings",
-  "info": {
-    "singularName": "site-setting",
-    "pluralName": "site-settings",
-    "displayName": "Site setting",
-    "description": "Global clinic and site settings"
-  },
-  "options": {
-    "draftAndPublish": false
-  },
+  "info": { "singularName": "site-setting", "pluralName": "site-settings", "displayName": "Site setting", "description": "Generic public identity and presentation settings for this dedicated site" },
+  "options": { "draftAndPublish": false },
   "attributes": {
-    "clinicName": {
-      "type": "string",
-      "required": true
-    },
-    "tagline": {
-      "type": "string"
-    },
-    "address": {
-      "type": "text"
-    },
-    "hotline": {
-      "type": "string"
-    },
-    "workingHours": {
-      "type": "string"
-    },
-    "bookingUrl": {
-      "type": "string"
-    },
-    "facebookUrl": {
-      "type": "string"
-    },
-    "zaloUrl": {
-      "type": "string"
-    },
-    "seoDefaultTitle": {
-      "type": "string"
-    },
-    "seoDefaultDescription": {
-      "type": "text"
-    }
+    "siteId": { "type": "string", "required": true, "unique": true },
+    "brandName": { "type": "string", "required": true },
+    "legalName": { "type": "string", "required": true },
+    "shortDescription": { "type": "text", "required": true },
+    "defaultSeoTitle": { "type": "string", "required": true },
+    "defaultSeoDescription": { "type": "text", "required": true },
+    "logo": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "favicon": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "defaultSocialImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "themeColor": { "type": "string" },
+    "contactEmail": { "type": "email" },
+    "contactPhone": { "type": "string" },
+    "address": { "type": "text" },
+    "socialProfiles": { "type": "json", "default": [] },
+    "businessIdentifiers": { "type": "json", "default": {} },
+    "supportedLocales": { "type": "json", "default": [] },
+    "defaultLeadRoutingMetadata": { "type": "json", "private": true, "default": {} }
   }
 }
-

@@ -1,0 +1,14 @@
+---
+import NotexLayout from "../layouts/NotexLayout.astro";
+import { notexSite } from "../data/notex";
+const plans = [
+  { name: "Personal", price: "$0", description: "For trying the core workflow.", features: ["Limited meeting captures", "Transcript summaries", "Personal notes"] },
+  { name: "Pro", price: "$15", description: "For people whose work runs on context.", features: ["Unlimited note projects", "Document summaries", "Action-item extraction", "Export and sharing"] },
+  { name: "Team", price: "$24", description: "For teams that need a shared record.", features: ["Everything in Pro", "Shared workspaces", "Team permissions", "Priority support"] }
+];
+const offerSchema = { "@type": "Product", name: notexSite.name, description: notexSite.description, brand: { "@type": "Brand", name: notexSite.name }, offers: plans.map((plan) => ({ "@type": "Offer", name: plan.name, price: plan.price.replace("$", ""), priceCurrency: "USD", availability: "https://schema.org/InStock" })) };
+---
+<NotexLayout title="Notex pricing | Start with useful context" description="Simple Notex plans for personal work, professionals, and teams." canonical="/pricing/" structuredData={[offerSchema]}>
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Pricing</p><h1>Start with the workflow. Scale with the team.</h1><p>Try the core capture and summary workflow, then choose the plan that matches how much context your work creates.</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-price-grid">{plans.map((plan, index) => <article class:list={["notex-price-card", { featured: index === 1 }]}><p class="notex-eyebrow">{plan.name}</p><h3>{plan.description}</h3><div class="notex-price">{plan.price}<small>{plan.price !== "$0" ? " / user / month" : " / forever"}</small></div><ul>{plan.features.map((feature) => <li>{feature}</li>)}</ul><a class:list={["notex-button", { "notex-button-light": index !== 1 }]} href="mailto:hello@notex.example?subject=Notex%20pricing">Choose {plan.name}</a></article>)}</div></div></section>
+</NotexLayout>

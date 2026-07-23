@@ -1,0 +1,24 @@
+{
+  "kind": "collection-type",
+  "collectionName": "lead_entries",
+  "info": { "singularName": "lead-entry", "pluralName": "lead-entries", "displayName": "Lead entry", "description": "Private lead submitted through this dedicated site" },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "siteId": { "type": "string", "required": true, "private": true },
+    "formType": { "type": "enumeration", "enum": ["general_contact", "product_inquiry", "request_quote", "service_consultation", "download_request"], "required": true, "private": true },
+    "locale": { "type": "string", "required": true, "private": true },
+    "fullName": { "type": "string", "required": true, "private": true },
+    "email": { "type": "email", "private": true },
+    "phone": { "type": "string", "private": true },
+    "message": { "type": "text", "private": true },
+    "contextId": { "type": "string", "private": true },
+    "landingPage": { "type": "string", "required": true, "private": true },
+    "referrer": { "type": "string", "private": true },
+    "utm": { "type": "json", "default": {}, "private": true },
+    "aiReferralSource": { "type": "string", "private": true },
+    "consentTimestamp": { "type": "datetime", "required": true, "private": true },
+    "privacyPolicyVersion": { "type": "string", "required": true, "private": true },
+    "idempotencyKey": { "type": "string", "required": true, "unique": true, "private": true },
+    "receivedAt": { "type": "datetime", "required": true, "private": true }
+  }
+}

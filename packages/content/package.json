@@ -1,0 +1,6 @@
+{
+  "name": "@base-cms/content",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" }
+}

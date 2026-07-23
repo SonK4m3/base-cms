@@ -1,7 +1,9 @@
-import { articleCards, doctors } from "../data/site";
+import { doctors } from "../data/site";
 import { conditionPages, servicePages, specialtyPages } from "../data/seo";
+import { notexBlog, notexComparisons, notexCustomers, notexFeatures, notexIntegrations, notexUseCases } from "../data/notex";
+import { createSitemapXml, type SitemapEntry } from "@base-cms/site-core";
 
-const baseUrl = "https://taitaoantam.vn";
+const baseUrl = import.meta.env.SITE ?? process.env.PUBLIC_SITE_URL ?? "https://notex.example";
 
 const staticRoutes = [
   "/",
@@ -22,26 +24,25 @@ const staticRoutes = [
 ];
 
 const dynamicRoutes = [
-  ...articleCards.map((item) => `/blog/${item.slug}/`),
+  ...notexBlog.map((item) => `/blog/${item.slug}/`),
   ...doctors.map((item) => `/bac-si/${item.slug}/`),
   ...specialtyPages.map((item) => `/chuyen-khoa/${item.slug}/`),
   ...conditionPages.map((item) => `/benh-ly/${item.slug}/`),
-  ...servicePages.map((item) => `/dich-vu/${item.slug}/`)
+  ...servicePages.map((item) => `/dich-vu/${item.slug}/`),
+  ...notexFeatures.map((item) => `/features/${item.slug}/`),
+  ...notexUseCases.map((item) => `/use-cases/${item.slug}/`),
+  ...notexComparisons.map((item) => `/compare/${item.slug}/`),
+  ...notexIntegrations.map((item) => `/integrations/${item.slug}/`),
+  ...notexCustomers.map((item) => `/customers/${item.slug}/`)
 ];
 
-const routes = [...new Set([...staticRoutes, ...dynamicRoutes])];
+const routes: SitemapEntry[] = [...new Set([...staticRoutes, ...dynamicRoutes])].map((url) => ({
+  url,
+  indexable: !["/thank-you/", "/404/"].includes(url)
+}));
 
 export const GET = () => {
-  const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${routes
-  .map(
-    (route) => `  <url>
-    <loc>${baseUrl}${route}</loc>
-  </url>`
-  )
-  .join("\n")}
-</urlset>`;
+  const body = createSitemapXml(baseUrl, routes);
 
   return new Response(body, {
     headers: {

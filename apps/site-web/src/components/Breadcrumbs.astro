@@ -1,0 +1,12 @@
+---
+import type { BreadcrumbItem } from "@base-cms/site-core";
+interface Props { items: BreadcrumbItem[] }
+const { items } = Astro.props;
+---
+{items.length > 1 && (
+  <nav class="breadcrumbs container" aria-label="Breadcrumb">
+    <ol>
+      {items.map((item, index) => <li>{index < items.length - 1 ? <a href={new URL(item.url).pathname}>{item.name}</a> : <span aria-current="page">{item.name}</span>}</li>)}
+    </ol>
+  </nav>
+)}

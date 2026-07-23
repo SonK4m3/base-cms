@@ -1,0 +1,17 @@
+{
+  "kind": "collection-type",
+  "collectionName": "navigations",
+  "info": { "singularName": "navigation", "pluralName": "navigations", "displayName": "Navigation", "description": "Localized navigation constrained to known destinations" },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "menuLocation": { "type": "enumeration", "enum": ["primary", "footer", "utility"], "required": true },
+    "label": { "type": "string", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "destinationType": { "type": "enumeration", "enum": ["page", "product", "category", "brand", "platform", "service", "article", "location", "external"], "required": true },
+    "destinationId": { "type": "string" },
+    "externalUrl": { "type": "string" },
+    "parentKey": { "type": "string" },
+    "order": { "type": "integer", "default": 0 },
+    "visible": { "type": "boolean", "default": true }
+  }
+}

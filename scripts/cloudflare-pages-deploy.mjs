@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
+const appDir = resolve(repoRoot, process.env.SITE_WEB_APP || "apps/site-web");
 
 const projectName =
   process.env.CLOUDFLARE_PAGES_PROJECT_NAME ||
@@ -24,7 +25,7 @@ const branch =
   process.env.GIT_BRANCH ||
   "main";
 
-const distDir = resolve(repoRoot, "apps/medical-web/dist");
+const distDir = resolve(repoRoot, process.env.SITE_WEB_DIST || "apps/site-web/dist");
 const args = [
   "wrangler",
   "pages",
@@ -59,7 +60,8 @@ if (process.argv.includes("--print")) {
 
 const result = spawnSync("npx", args, {
   stdio: "inherit",
-  shell: true
+  shell: true,
+  cwd: appDir
 });
 
 process.exit(result.status ?? 1);

@@ -1,0 +1,8 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexIntegrations } from "../../data/notex";
+---
+<NotexLayout title="Notex integrations | Meet teams where they work" description="Explore Notex workflows for Google Meet, Zoom, Notion, Slack, and Linear." canonical="/integrations/">
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Integrations</p><h1>Your notes should travel with the work.</h1><p>Capture in the tools your team uses today, then move reviewed context into the systems where decisions and tasks live.</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-index-grid">{notexIntegrations.map((item) => <a class="notex-index-card" href={`/integrations/${item.slug}/`}><span>{item.label} · {item.status}</span><h3>{item.title}</h3><p>{item.description}</p><span>View integration →</span></a>)}</div></div></section>
+</NotexLayout>

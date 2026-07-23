@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_sections_call_to_actions",
+  "info": { "displayName": "Call to action" },
+  "attributes": {
+    "heading": { "type": "string", "required": true },
+    "text": { "type": "text" },
+    "label": { "type": "string", "required": true },
+    "destination": { "type": "string", "required": true },
+    "variant": { "type": "enumeration", "enum": ["primary", "secondary", "contact", "quote", "download"], "default": "primary" }
+  }
+}

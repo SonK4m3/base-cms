@@ -1,0 +1,12 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexComparisons, notexSite } from "../../data/notex";
+import { createBreadcrumbSchema } from "@base-cms/site-core";
+export function getStaticPaths() { return notexComparisons.map((item) => ({ params: { slug: item.slug }, props: { item } })); }
+const { item } = Astro.props;
+const breadcrumbs = createBreadcrumbSchema([{ name: "Notex", url: notexSite.url }, { name: "Comparisons", url: `${notexSite.url}compare/` }, { name: item.title, url: `${notexSite.url}compare/${item.slug}/` }]);
+---
+<NotexLayout title={`${item.title} | Notex`} description={item.description} canonical={`/compare/${item.slug}/`} structuredData={[{ "@type": "Article", headline: item.title, description: item.description }, breadcrumbs]}>
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-breadcrumb"><a href="/compare/">Comparisons</a> / {item.label}</p><p class="notex-eyebrow">Comparison guide</p><h1>{item.title}</h1><p>{item.description}</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-table-wrap"><table class="notex-table"><thead><tr><th>Decision area</th><th>What to evaluate</th></tr></thead><tbody>{item.criteria.map((criterion, index) => <tr><td><strong>{index + 1}. {criterion.split(":")[0]}</strong></td><td>{criterion.includes(":") ? criterion.split(":").slice(1).join(":") : criterion}</td></tr>)}</tbody></table></div><div class="notex-actions notex-actions-spaced"><a class="notex-button" href="/pricing/">Try the Notex workflow</a><a class="notex-button notex-button-light" href="/features/">See features</a></div></div></section>
+</NotexLayout>

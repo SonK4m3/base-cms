@@ -1,0 +1,30 @@
+---
+import { footerNavigationByLocale, manifest } from "../data/site.ts";
+interface Props { localeCode: string }
+const { localeCode } = Astro.props;
+const footerNavigation = footerNavigationByLocale[localeCode] ?? footerNavigationByLocale[manifest.defaultLocale] ?? [];
+const locale = manifest.supportedLocales.find((item) => item.code === localeCode) ?? manifest.supportedLocales[0];
+const prefix = locale.urlPrefix ? `/${locale.urlPrefix.replace(/^\/+|\/+$/g, "")}` : "";
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h2>{manifest.brand.brandName}</h2>
+      <p>{manifest.brand.shortDescription}</p>
+    </div>
+    <div>
+      <h2>Explore</h2>
+      <ul>{footerNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      {manifest.brand.contactEmail && <p><a href={`mailto:${manifest.brand.contactEmail}`} data-analytics-event="email_click">{manifest.brand.contactEmail}</a></p>}
+      {manifest.brand.contactPhone && <p><a href={`tel:${manifest.brand.contactPhone.replace(/\s/g, "")}`} data-analytics-event="phone_click">{manifest.brand.contactPhone}</a></p>}
+      {manifest.brand.address && <p>{manifest.brand.address}</p>}
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© {new Date().getFullYear()} {manifest.brand.legalName}</span>
+    <span><a href={`${prefix}/about/`}>About</a> · <a href={`${prefix}/contact/`}>Contact</a></span>
+  </div>
+</footer>

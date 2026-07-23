@@ -1,0 +1,10 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { buildJsonLdGraph, buildMetadata } from "@base-cms/site-core";
+import { siteContext } from "../data/site.ts";
+const metadata = buildMetadata(siteContext, { title: "Thank you", description: "Your inquiry has been received.", path: "/thank-you/", robots: "noindex,nofollow" });
+const graph = buildJsonLdGraph(siteContext, metadata);
+---
+<SiteLayout metadata={metadata} graph={graph}>
+  <section class="hero"><div class="container narrow"><p class="eyebrow">Inquiry received</p><h1>Thank you</h1><p class="summary">Your message has been sent to this site's dedicated team. We will respond using the contact details you provided.</p><a class="button" href="/">Return home</a></div></section>
+</SiteLayout>

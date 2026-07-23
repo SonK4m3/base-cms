@@ -1,0 +1,8 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexFeatures, notexSite } from "../../data/notex";
+---
+<NotexLayout title="Notex features | AI notes, transcripts, and summaries" description="Explore Notex features for meeting notes, transcription, document summaries, and action items." canonical="/features/">
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-breadcrumb"><a href="/">Notex</a> / Features</p><p class="notex-eyebrow">Product capabilities</p><h1>Capture the source. Keep the context. Do the work.</h1><p>Notex combines recording, transcription, summarization, and follow-up in a workflow designed for useful output — not another inbox.</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-index-grid">{notexFeatures.map((feature) => <a class="notex-index-card" href={`/features/${feature.slug}/`}><span>{feature.label}</span><h3>{feature.title}</h3><p>{feature.description}</p><span>Explore feature →</span></a>)}</div></div></section>
+</NotexLayout>

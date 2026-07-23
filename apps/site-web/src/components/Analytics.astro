@@ -1,0 +1,19 @@
+---
+const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+---
+{ga4Id && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>}
+<script is:inline define:vars={{ ga4Id }}>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  if (ga4Id) { window.gtag("js", new Date()); window.gtag("config", ga4Id); }
+  window.trackSiteEvent = function (event, properties) {
+    window.dataLayer.push({ event: event, ...(properties || {}) });
+  };
+  const referrer = document.referrer.toLowerCase();
+  const aiSource = referrer.includes("chatgpt.com") || referrer.includes("chat.openai.com") ? "chatgpt" : referrer.includes("perplexity.ai") ? "perplexity" : referrer.includes("bing.com") ? "bing" : referrer.includes("gemini.google.com") || referrer.includes("claude.ai") ? "other-ai" : null;
+  if (aiSource) window.trackSiteEvent("ai_referral", { ai_source: aiSource, landing_page: window.location.pathname });
+  document.addEventListener("click", function (event) {
+    const target = event.target instanceof Element ? event.target.closest("[data-analytics-event]") : null;
+    if (target) window.trackSiteEvent(target.getAttribute("data-analytics-event"), { destination: target.getAttribute("href") || undefined });
+  });
+</script>

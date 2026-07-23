@@ -2,12 +2,12 @@
   email {$CADDY_EMAIL}
 }
 
-{$PUBLIC_SITE_DOMAIN:taitaoantam.vn} {
+{$PUBLIC_SITE_DOMAIN:example.com} {
   encode zstd gzip
-  reverse_proxy medical-web:80
+  reverse_proxy site-web:80
 }
 
-{$PUBLIC_CMS_DOMAIN:cms.taitaoantam.vn} {
+{$PUBLIC_CMS_DOMAIN:cms.example.com} {
   encode zstd gzip
   reverse_proxy strapi:1337
 }

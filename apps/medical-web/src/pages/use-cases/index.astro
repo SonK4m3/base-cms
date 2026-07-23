@@ -1,0 +1,8 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexUseCases } from "../../data/notex";
+---
+<NotexLayout title="Notex use cases | AI notes for real work" description="See how sales teams, remote teams, researchers, founders, and knowledge workers use Notex." canonical="/use-cases/">
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Use cases</p><h1>Built for work that happens in conversation.</h1><p>Different teams ask different questions after a meeting. Notex gives each team a focused path from source material to useful follow-up.</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-index-grid">{notexUseCases.map((item) => <a class="notex-index-card" href={`/use-cases/${item.slug}/`}><span>{item.label}</span><h3>{item.title}</h3><p>{item.description}</p><span>See the workflow →</span></a>)}</div></div></section>
+</NotexLayout>

@@ -1,0 +1,21 @@
+{
+  "kind": "single-type",
+  "collectionName": "organization_profiles",
+  "info": { "singularName": "organization-profile", "pluralName": "organization-profiles", "displayName": "Organization profile", "description": "Verified legal and public business identity; never overrides the deployment domain" },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "legalName": { "type": "string", "required": true },
+    "organizationType": { "type": "enumeration", "enum": ["Organization", "Corporation", "LocalBusiness"], "default": "Organization" },
+    "foundedDate": { "type": "date" },
+    "founders": { "type": "json", "default": [] },
+    "team": { "type": "relation", "relation": "manyToMany", "target": "api::author.author" },
+    "address": { "type": "text" },
+    "contactPoints": { "type": "json", "default": [] },
+    "certifications": { "type": "json", "default": [] },
+    "awards": { "type": "json", "default": [] },
+    "entityUrls": { "type": "json", "default": [] },
+    "businessAreas": { "type": "json", "default": [] },
+    "reviewedAt": { "type": "datetime", "required": true },
+    "owner": { "type": "string", "required": true }
+  }
+}

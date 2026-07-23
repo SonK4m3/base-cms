@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_shared_editorial_controls",
+  "info": { "displayName": "Editorial control" },
+  "attributes": {
+    "status": { "type": "enumeration", "enum": ["draft", "factual_review", "seo_review", "localization_review", "approved", "published", "needs_update", "archived"], "default": "draft", "required": true },
+    "owner": { "type": "string", "required": true },
+    "reviewer": { "type": "string" },
+    "reviewedAt": { "type": "datetime" },
+    "fixture": { "type": "boolean", "default": false },
+    "qualityScore": { "type": "integer", "min": 0, "max": 100 }
+  }
+}

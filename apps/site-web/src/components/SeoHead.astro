@@ -1,0 +1,32 @@
+---
+import { serializeJsonLd, type SeoDocument } from "@base-cms/site-core";
+
+interface Props {
+  metadata: SeoDocument;
+  graph: Record<string, unknown>;
+  faviconUrl?: string;
+  themeColor: string;
+}
+
+const { metadata, graph, faviconUrl = "/favicon.svg", themeColor } = Astro.props;
+---
+<title>{metadata.title}</title>
+<meta name="description" content={metadata.description} />
+<meta name="robots" content={metadata.robots} />
+<link rel="canonical" href={metadata.canonical} />
+{metadata.hreflang.map((alternate) => <link rel="alternate" hreflang={alternate.language} href={alternate.url} />)}
+<meta property="og:type" content={metadata.openGraph.type} />
+<meta property="og:title" content={metadata.openGraph.title} />
+<meta property="og:description" content={metadata.openGraph.description} />
+<meta property="og:url" content={metadata.openGraph.url} />
+<meta property="og:locale" content={metadata.openGraph.locale} />
+{metadata.openGraph.image && <meta property="og:image" content={metadata.openGraph.image} />}
+{metadata.openGraph.imageWidth && <meta property="og:image:width" content={String(metadata.openGraph.imageWidth)} />}
+{metadata.openGraph.imageHeight && <meta property="og:image:height" content={String(metadata.openGraph.imageHeight)} />}
+<meta name="twitter:card" content={metadata.twitter.card} />
+<meta name="twitter:title" content={metadata.twitter.title} />
+<meta name="twitter:description" content={metadata.twitter.description} />
+{metadata.twitter.image && <meta name="twitter:image" content={metadata.twitter.image} />}
+<link rel="icon" href={faviconUrl} />
+<meta name="theme-color" content={themeColor} />
+<script type="application/ld+json" is:inline set:html={serializeJsonLd(graph)}></script>

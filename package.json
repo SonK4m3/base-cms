@@ -4,13 +4,30 @@
   "packageManager": "pnpm@9.0.0",
   "scripts": {
     "dev": "pnpm dev:web",
-    "dev:web": "pnpm --filter @base-cms/medical-web dev",
+    "dev:web": "pnpm --filter @base-cms/site-web dev",
+    "dev:legacy": "pnpm --filter @base-cms/medical-web dev",
     "dev:cms": "pnpm --filter @base-cms/strapi-cms develop",
     "build": "pnpm build:web && pnpm build:cms",
-    "build:web": "pnpm --filter @base-cms/medical-web build",
+    "build:web": "pnpm --filter @base-cms/site-web build",
+    "build:legacy": "pnpm --filter @base-cms/medical-web build",
     "build:cms": "pnpm --filter @base-cms/strapi-cms build",
     "deploy:cf": "node scripts/cloudflare-pages-deploy.mjs",
     "deploy:web": "node scripts/cloudflare-pages-deploy.mjs",
-    "lint": "echo \"Add workspace linting when dependencies are installed\""
+    "seo:indexnow": "node scripts/submit-indexnow.mjs",
+    "lint": "pnpm --filter @base-cms/site-web exec astro check",
+    "test": "node --test packages/site-core/test/index.test.mjs packages/site-core/test/platform.test.mjs packages/catalog/test/index.test.mjs packages/forms/test/index.test.mjs packages/analytics/test/index.test.mjs",
+    "test:seo": "node --test packages/site-core/test/index.test.mjs packages/site-core/test/platform.test.mjs",
+    "test:rendered": "node --test apps/site-web/test/rendered.test.mjs",
+    "test:isolation": "node scripts/test-fixture-isolation.mjs",
+    "test:production-build": "node scripts/test-production-build.mjs",
+    "site:create": "node scripts/site-cli.mjs create",
+    "site:validate": "node scripts/site-cli.mjs validate",
+    "site:seed": "node scripts/site-cli.mjs seed",
+    "site:build": "node scripts/site-cli.mjs build",
+    "site:deploy": "node scripts/site-cli.mjs deploy",
+    "site:audit": "node scripts/site-cli.mjs audit",
+    "catalog:validate": "node scripts/catalog-cli.mjs validate",
+    "catalog:import": "node scripts/catalog-cli.mjs import",
+    "catalog:export": "node scripts/catalog-cli.mjs export"
   }
 }

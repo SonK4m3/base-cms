@@ -1,0 +1,20 @@
+{
+  "kind": "collection-type",
+  "collectionName": "brands",
+  "info": { "singularName": "brand", "pluralName": "brands", "displayName": "Brand", "description": "Verified product brand or manufacturer profile" },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "externalId": { "type": "string", "unique": true },
+    "name": { "type": "string", "required": true },
+    "slug": { "type": "uid", "targetField": "name", "required": true },
+    "description": { "type": "richtext", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "logo": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "officialUrl": { "type": "string" },
+    "manufacturerInformation": { "type": "richtext" },
+    "products": { "type": "relation", "relation": "oneToMany", "target": "api::product.product", "mappedBy": "brand" },
+    "sourceLinks": { "type": "json", "default": [] },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" },
+    "editorial": { "type": "component", "repeatable": false, "required": true, "component": "shared.editorial-control" }
+  }
+}

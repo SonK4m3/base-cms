@@ -1,0 +1,14 @@
+{
+  "kind": "collection-type",
+  "collectionName": "references",
+  "info": { "singularName": "reference", "pluralName": "references", "displayName": "Reference", "description": "Reusable public source reference" },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "url": { "type": "string", "required": true },
+    "publisher": { "type": "string" },
+    "publishedAtSource": { "type": "date" },
+    "accessedAt": { "type": "date", "required": true },
+    "notes": { "type": "text", "private": true }
+  }
+}

@@ -1,0 +1,14 @@
+---
+import ContentPage from "../components/ContentPage.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { contentRecords, getRelatedRecords } from "../data/site.ts";
+import { createPagePresentation } from "../lib/page-seo.ts";
+
+const record = contentRecords.find((item) => item.route.contentType === "home" && item.route.path === "/");
+if (!record) throw new Error("Homepage is missing from the route manifest");
+const { metadata, graph, breadcrumbs } = createPagePresentation(record);
+const related = getRelatedRecords(record);
+---
+<SiteLayout metadata={metadata} graph={graph}>
+  <ContentPage record={record} related={related} breadcrumbs={breadcrumbs} />
+</SiteLayout>

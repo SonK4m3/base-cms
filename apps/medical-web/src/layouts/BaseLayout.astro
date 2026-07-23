@@ -4,17 +4,42 @@ import ContactDialog from "../components/ContactDialog.astro";
 import FloatingContactDock from "../components/FloatingContactDock.astro";
 import StickyContactBar from "../components/StickyContactBar.astro";
 
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  noindex?: boolean;
+  ogType?: "website" | "article" | "profile";
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  siteName?: string;
+  siteDescription?: string;
+  siteLogo?: string;
+  lang?: string;
+  themeColor?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+}
+
 const {
   title = "Base CMS",
-  description = "Medical CMS and SEO content platform",
+  description = "A fast, structured website foundation for content, SEO, and growth.",
   canonical,
   noindex,
   ogType,
-  structuredData
-} = Astro.props;
+  structuredData,
+  siteName,
+  siteDescription,
+  siteLogo,
+  lang = "en",
+  themeColor,
+  image,
+  imageWidth,
+  imageHeight
+}: Props = Astro.props;
 ---
 <!doctype html>
-<html lang="vi">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,6 +54,14 @@ const {
       noindex={noindex}
       ogType={ogType}
       structuredData={structuredData}
+      siteName={siteName}
+      siteDescription={siteDescription}
+      siteLogo={siteLogo}
+      lang={lang}
+      themeColor={themeColor}
+      image={image}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
     />
   </head>
   <body>

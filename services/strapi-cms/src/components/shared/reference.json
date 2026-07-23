@@ -2,7 +2,7 @@
   "collectionName": "components_shared_references",
   "info": {
     "displayName": "Reference",
-    "description": "A medical reference or source citation"
+    "description": "A reusable public source citation"
   },
   "options": {},
   "attributes": {
@@ -16,4 +16,3 @@
     }
   }
 }
-

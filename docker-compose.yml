@@ -1,11 +1,12 @@
 services:
-  medical-web:
+  site-web:
     build:
-      context: ./apps/medical-web
+      context: .
+      dockerfile: ./apps/site-web/Dockerfile
       target: runtime
-    environment:
-      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://taitaoantam.vn}
-      PUBLIC_STRAPI_URL: ${PUBLIC_STRAPI_URL:-http://strapi:1337}
+      args:
+        SITE_ID: ${SITE_ID}
+        PUBLIC_SITE_URL: ${PUBLIC_SITE_URL}
     restart: unless-stopped
     depends_on:
       - strapi
@@ -25,6 +26,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-base_cms}
       HOST: ${HOST:-0.0.0.0}
       PORT: ${PORT:-1337}
+      SITE_ID: ${SITE_ID}
     restart: unless-stopped
     depends_on:
       - postgres
@@ -52,7 +54,7 @@ services:
       - caddy_config:/config
     restart: unless-stopped
     depends_on:
-      - medical-web
+      - site-web
       - strapi
 
 volumes:

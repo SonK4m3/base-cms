@@ -1,0 +1,17 @@
+{
+  "kind": "collection-type",
+  "collectionName": "redirects",
+  "info": {
+    "singularName": "redirect",
+    "pluralName": "redirects",
+    "displayName": "Redirect",
+    "description": "Canonical URL migration and redirect rules"
+  },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "fromPath": { "type": "string", "required": true },
+    "toPath": { "type": "string", "required": true },
+    "statusCode": { "type": "enumeration", "enum": ["301", "302"], "default": "301" },
+    "enabled": { "type": "boolean", "default": true }
+  }
+}

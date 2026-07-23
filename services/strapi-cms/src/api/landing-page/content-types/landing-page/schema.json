@@ -1,42 +1,18 @@
 {
   "kind": "collection-type",
   "collectionName": "landing_pages",
-  "info": {
-    "singularName": "landing-page",
-    "pluralName": "landing-pages",
-    "displayName": "Landing page",
-    "description": "Campaign or service landing page"
-  },
-  "options": {
-    "draftAndPublish": true
-  },
+  "info": { "singularName": "landing-page", "pluralName": "landing-pages", "displayName": "Landing page", "description": "Curated campaign or commercial landing page" },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
   "attributes": {
-    "title": {
-      "type": "string",
-      "required": true
-    },
-    "slug": {
-      "type": "uid",
-      "targetField": "title",
-      "required": true
-    },
-    "heroTitle": {
-      "type": "string"
-    },
-    "heroDescription": {
-      "type": "text"
-    },
-    "primaryCta": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.contact-link"
-    },
-    "seoTitle": {
-      "type": "string"
-    },
-    "seoDescription": {
-      "type": "text"
-    }
+    "title": { "type": "string", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "slug": { "type": "uid", "targetField": "title", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "summary": { "type": "text", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "primaryAudience": { "type": "string", "required": true },
+    "primarySearchIntent": { "type": "string", "required": true },
+    "sections": { "type": "dynamiczone", "components": ["sections.answer-summary", "sections.rich-text", "sections.feature-grid", "sections.call-to-action"] },
+    "leadFormType": { "type": "enumeration", "enum": ["general_contact", "product_inquiry", "request_quote", "service_consultation", "download_request"], "default": "general_contact" },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" },
+    "editorial": { "type": "component", "repeatable": false, "required": true, "component": "shared.editorial-control" }
   }
 }
-

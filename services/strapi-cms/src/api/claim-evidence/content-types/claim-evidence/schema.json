@@ -1,0 +1,18 @@
+{
+  "kind": "collection-type",
+  "collectionName": "claim_evidence",
+  "info": { "singularName": "claim-evidence", "pluralName": "claim-evidences", "displayName": "Claim evidence", "description": "Verification record for important public claims" },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "claim": { "type": "text", "required": true },
+    "claimType": { "type": "enumeration", "enum": ["certification", "performance", "compatibility", "customer", "other"], "default": "other" },
+    "sourceUrl": { "type": "string", "required": true },
+    "sourceFile": { "type": "media", "multiple": false, "allowedTypes": ["files", "images"] },
+    "owner": { "type": "string", "required": true },
+    "verifiedAt": { "type": "datetime", "required": true },
+    "expiresAt": { "type": "datetime" },
+    "reviewer": { "type": "string", "required": true },
+    "consentReference": { "type": "string", "private": true },
+    "applicableEntryIds": { "type": "json", "default": [] }
+  }
+}

@@ -1,42 +1,27 @@
 {
   "kind": "collection-type",
   "collectionName": "services",
-  "info": {
-    "singularName": "service",
-    "pluralName": "services",
-    "displayName": "Service",
-    "description": "Medical service page"
-  },
-  "options": {
-    "draftAndPublish": true
-  },
+  "info": { "singularName": "service", "pluralName": "services", "displayName": "Service", "description": "Generic business service with scope, process, evidence, and lead intent" },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "slug": {
-      "type": "uid",
-      "targetField": "name",
-      "required": true
-    },
-    "summary": {
-      "type": "text"
-    },
-    "details": {
-      "type": "richtext"
-    },
-    "bookingCtas": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.contact-link"
-    },
-    "seoTitle": {
-      "type": "string"
-    },
-    "seoDescription": {
-      "type": "text"
-    }
+    "externalId": { "type": "string", "unique": true },
+    "name": { "type": "string", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "slug": { "type": "uid", "targetField": "name", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "summary": { "type": "text", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "scope": { "type": "richtext", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "deliverables": { "type": "json", "default": [] },
+    "process": { "type": "json", "default": [] },
+    "industries": { "type": "json", "default": [] },
+    "serviceAreas": { "type": "json", "default": [] },
+    "requirements": { "type": "richtext" },
+    "sections": { "type": "dynamiczone", "components": ["sections.answer-summary", "sections.rich-text", "sections.feature-grid", "sections.call-to-action"] },
+    "leadFormType": { "type": "enumeration", "enum": ["general_contact", "service_consultation", "request_quote"], "default": "service_consultation" },
+    "faq": { "type": "component", "repeatable": true, "component": "shared.faq-item" },
+    "evidenceIds": { "type": "json", "default": [] },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" },
+    "editorial": { "type": "component", "repeatable": false, "required": true, "component": "shared.editorial-control" },
+    "importedAt": { "type": "datetime" },
+    "sourceChecksum": { "type": "string", "private": true }
   }
 }
-

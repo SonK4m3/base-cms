@@ -1,0 +1,25 @@
+---
+import { manifest, navigationByLocale } from "../data/site.ts";
+interface Props { localeCode: string; alternates: Array<{ language: string; url: string }> }
+const { localeCode, alternates } = Astro.props;
+const navigation = navigationByLocale[localeCode] ?? navigationByLocale[manifest.defaultLocale] ?? [];
+const currentLocale = manifest.supportedLocales.find((locale) => locale.code === localeCode) ?? manifest.supportedLocales[0];
+const homeHref = currentLocale.urlPrefix ? `/${currentLocale.urlPrefix.replace(/^\/+|\/+$/g, "")}/` : "/";
+const contactHref = `${homeHref === "/" ? "" : homeHref.replace(/\/$/, "")}/contact/`;
+const languageLinks = manifest.supportedLocales.map((locale) => ({ locale, alternate: alternates.find((item) => item.language === locale.htmlLang) })).filter((item) => item.locale.code !== localeCode && item.alternate);
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={homeHref} aria-label={`${manifest.brand.brandName} home`}>
+      <img src={manifest.brand.logoUrl} width="180" height="40" alt={`${manifest.brand.brandName} logo`} />
+      <span>{manifest.brand.brandName}</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <ul>
+        {navigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    {languageLinks.length > 0 && <nav class="language-nav" aria-label="Language"><ul>{languageLinks.map(({ locale, alternate }) => <li><a href={new URL(alternate!.url).pathname} hreflang={locale.htmlLang} data-analytics-event="language_switch">{locale.label}</a></li>)}</ul></nav>}
+    <a class="button button-small" href={contactHref}>Contact</a>
+  </div>
+</header>

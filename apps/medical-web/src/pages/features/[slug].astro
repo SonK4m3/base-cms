@@ -1,0 +1,14 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexFeatures, notexSite } from "../../data/notex";
+import { createBreadcrumbSchema } from "@base-cms/site-core";
+
+export function getStaticPaths() { return notexFeatures.map((feature) => ({ params: { slug: feature.slug }, props: { feature } })); }
+const { feature } = Astro.props;
+const breadcrumbs = createBreadcrumbSchema([{ name: "Notex", url: `${notexSite.url}/` }, { name: "Features", url: `${notexSite.url}/features/` }, { name: feature.title, url: `${notexSite.url}/features/${feature.slug}/` }]);
+const featureSchema = { "@type": "Service", name: feature.title, description: feature.description, provider: { "@type": "Organization", name: notexSite.name } };
+---
+<NotexLayout title={`${feature.title} | Notex`} description={feature.description} canonical={`/features/${feature.slug}/`} structuredData={[featureSchema, breadcrumbs]}>
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-breadcrumb"><a href="/features/">Features</a> / {feature.label}</p><p class="notex-eyebrow">Notex feature</p><h1>{feature.title}</h1><p>{feature.description}</p><div class="notex-answer">{feature.answer}</div></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-detail-grid"><div><h2>Designed for a concrete outcome.</h2><p class="notex-lede">Notex keeps the workflow close to the source, so the result is easier to review, share, and act on.</p><a class="notex-button" href="/pricing/">Try Notex free</a></div><ul class="notex-list">{feature.bullets.map((bullet) => <li>{bullet}</li>)}</ul></div></div></section>
+</NotexLayout>

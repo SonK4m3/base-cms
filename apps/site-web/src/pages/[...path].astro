@@ -1,0 +1,23 @@
+---
+import ContentPage from "../components/ContentPage.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { contentRecords, getRelatedRecords, type ContentRecord } from "../data/site.ts";
+import { createPagePresentation } from "../lib/page-seo.ts";
+
+export function getStaticPaths() {
+  return contentRecords
+    .filter((record) => record.route.path !== "/")
+    .map((record) => ({
+      params: { path: record.route.path.replace(/^\/+|\/+$/g, "") },
+      props: { record }
+    }));
+}
+
+interface Props { record: ContentRecord }
+const { record } = Astro.props;
+const { metadata, graph, breadcrumbs } = createPagePresentation(record);
+const related = getRelatedRecords(record);
+---
+<SiteLayout metadata={metadata} graph={graph}>
+  <ContentPage record={record} related={related} breadcrumbs={breadcrumbs} />
+</SiteLayout>

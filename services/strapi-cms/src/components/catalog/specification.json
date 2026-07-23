@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_catalog_specifications",
+  "info": { "displayName": "Specification" },
+  "attributes": {
+    "group": { "type": "string" },
+    "label": { "type": "string", "required": true },
+    "value": { "type": "string", "required": true },
+    "unit": { "type": "string" },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

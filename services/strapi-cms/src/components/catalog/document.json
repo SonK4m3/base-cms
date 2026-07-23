@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_catalog_documents",
+  "info": { "displayName": "Catalog document" },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "documentType": { "type": "enumeration", "enum": ["datasheet", "manual", "certificate", "brochure", "other"], "default": "other" },
+    "file": { "type": "media", "multiple": false, "required": true, "allowedTypes": ["files"] },
+    "description": { "type": "text" }
+  }
+}

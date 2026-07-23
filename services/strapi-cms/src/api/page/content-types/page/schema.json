@@ -1,0 +1,23 @@
+{
+  "kind": "collection-type",
+  "collectionName": "pages",
+  "info": { "singularName": "page", "pluralName": "pages", "displayName": "Page", "description": "Generic typed landing, company, contact, and legal page" },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "title": { "type": "string", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "slug": { "type": "uid", "targetField": "title", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "pageType": { "type": "enumeration", "enum": ["landing", "about", "contact", "legal", "team", "partner", "certification"], "default": "landing" },
+    "summary": { "type": "text", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "primaryAudience": { "type": "string", "required": true },
+    "primarySearchIntent": { "type": "string", "required": true },
+    "sections": { "type": "dynamiczone", "components": ["sections.answer-summary", "sections.rich-text", "sections.feature-grid", "sections.call-to-action"] },
+    "author": { "type": "relation", "relation": "manyToOne", "target": "api::author.author" },
+    "reviewer": { "type": "relation", "relation": "manyToOne", "target": "api::author.author" },
+    "references": { "type": "component", "repeatable": true, "component": "shared.reference" },
+    "faq": { "type": "component", "repeatable": true, "component": "shared.faq-item" },
+    "relatedEntryIds": { "type": "json", "default": [] },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" },
+    "editorial": { "type": "component", "repeatable": false, "required": true, "component": "shared.editorial-control" }
+  }
+}

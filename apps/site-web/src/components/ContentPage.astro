@@ -1,0 +1,64 @@
+---
+import type { BreadcrumbItem } from "@base-cms/site-core";
+import type { ContentRecord } from "../data/site.ts";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import LeadForm from "./LeadForm.astro";
+import { manifest } from "../data/site.ts";
+import TypedSections from "./TypedSections.astro";
+
+interface Props { record: ContentRecord; related: ContentRecord[]; breadcrumbs: BreadcrumbItem[] }
+const { record, related, breadcrumbs } = Astro.props;
+const isContact = record.route.id === "contact" || record.eyebrow === "contact";
+const isCommercial = ["product", "service"].includes(record.route.contentType);
+const answerSummary = record.body[0] || record.route.description;
+const detailBody = record.body.slice(1);
+const date = (value?: string) => value ? new Intl.DateTimeFormat(record.route.locale, { dateStyle: "medium" }).format(new Date(value)) : undefined;
+const viewEvent = record.route.contentType === "product" ? "product_view" : record.route.contentType === "service" ? "service_view" : undefined;
+---
+<Breadcrumbs items={breadcrumbs} />
+<article>
+  <header class="hero">
+    <div class="container narrow">
+      {record.eyebrow && <p class="eyebrow">{record.eyebrow}</p>}
+      <h1>{record.route.title}</h1>
+      <p class="summary">{answerSummary}</p>
+      {record.route.contentType === "article" && <p class="content-meta">Published by {record.schema?.authorUrl ? <a href={record.schema.authorUrl}>{record.schema.authorName}</a> : manifest.brand.brandName}{record.route.publishedAt && <> on <time datetime={record.route.publishedAt}>{date(record.route.publishedAt)}</time></>}{record.route.modifiedAt && <> · Updated <time datetime={record.route.modifiedAt}>{date(record.route.modifiedAt)}</time></>}{record.route.reviewedAt && <> · Reviewed{record.schema?.reviewerName ? ` by ${record.schema.reviewerName}` : ""} <time datetime={record.route.reviewedAt}>{date(record.route.reviewedAt)}</time></>}</p>}
+      {isCommercial && <a class="button" href="#inquiry" data-analytics-event="cta_click">Request information</a>}
+    </div>
+  </header>
+  <div class="container content-stack">
+    {record.route.contentType === "product" && record.media && <figure class="product-media"><img src={record.media.url} width={record.media.width} height={record.media.height} alt={record.media.alt} /><figcaption>Product media reviewed with this catalog entry.</figcaption></figure>}
+    {["article", "author"].includes(record.route.contentType) && record.media && <figure class="product-media"><img src={record.media.url} width={record.media.width} height={record.media.height} alt={record.media.alt} /></figure>}
+    {record.route.contentType === "author" && record.schema?.jobTitle && <p class="content-meta">Role: {record.schema.jobTitle}</p>}
+    {record.route.contentType === "location" && record.schema?.address && <section class="answer-panel"><h2>Location details</h2><p>{record.schema.address}</p>{record.schema.phone && <p><a href={`tel:${record.schema.phone}`}>{record.schema.phone}</a></p>}{record.schema.email && <p><a href={`mailto:${record.schema.email}`}>{record.schema.email}</a></p>}</section>}
+    {detailBody.length > 0 && <section class="prose" aria-label="Overview">{detailBody.map((paragraph) => <p>{paragraph}</p>)}</section>}
+    {record.sections?.length && <TypedSections sections={record.sections} />}
+    {isCommercial && record.route.reviewedAt && <p class="content-meta">Product or service information reviewed by {record.route.owner} on <time datetime={record.route.reviewedAt}>{date(record.route.reviewedAt)}</time>.</p>}
+    {record.features?.length && (
+      <section>
+        <h2>{record.route.contentType === "home" ? "A reliable foundation" : "What to know"}</h2>
+        <div class="card-grid">{record.features.map((feature) => <article class="card"><h3>{feature.title}</h3><p>{feature.description}</p></article>)}</div>
+      </section>
+    )}
+    {record.specifications?.length && (
+      <section>
+        <h2>Specifications and conditions</h2>
+        <div class="table-wrap"><table><tbody>{record.specifications.map((row) => <tr><th scope="row">{row.label}</th><td>{row.value}</td></tr>)}</tbody></table></div>
+      </section>
+    )}
+    {record.faq?.length && <section><h2>Frequently asked questions</h2><div class="faq-list">{record.faq.map((item) => <details><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div></section>}
+    {related.length > 0 && (
+      <section>
+        <h2>Related information</h2>
+        <div class="card-grid">{related.map((item) => <a class="card linked-card" href={item.route.path}><h3>{item.route.title}</h3><p>{item.route.description}</p><span>View details →</span></a>)}</div>
+      </section>
+    )}
+    {(isCommercial || isContact) && (
+      <section id="inquiry" class="inquiry-panel">
+        <div><p class="eyebrow">Next step</p><h2>Talk with {record.route.id === "contact" ? "our team" : "a specialist"}</h2><p>Share your requirements and we will route the inquiry to the correct site-specific destination.</p></div>
+        <LeadForm formType={record.route.contentType === "product" ? "product_inquiry" : record.route.contentType === "service" ? "service_consultation" : "general_contact"} contextId={record.route.id} />
+      </section>
+    )}
+  </div>
+</article>
+{viewEvent && <script is:inline define:vars={{ viewEvent }}>window.trackSiteEvent?.(viewEvent);</script>}

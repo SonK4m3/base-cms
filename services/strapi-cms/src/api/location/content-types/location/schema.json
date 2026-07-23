@@ -1,0 +1,22 @@
+{
+  "kind": "collection-type",
+  "collectionName": "locations",
+  "info": { "singularName": "location", "pluralName": "locations", "displayName": "Location", "description": "Real business facility or service location" },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "slug": { "type": "uid", "targetField": "name", "required": true },
+    "summary": { "type": "text", "required": true, "pluginOptions": { "i18n": { "localized": true } } },
+    "address": { "type": "text", "required": true },
+    "phone": { "type": "string" },
+    "email": { "type": "email" },
+    "openingHours": { "type": "json", "default": [] },
+    "latitude": { "type": "decimal" },
+    "longitude": { "type": "decimal" },
+    "isPhysicalFacility": { "type": "boolean", "default": true },
+    "serviceArea": { "type": "json", "default": [] },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" },
+    "editorial": { "type": "component", "repeatable": false, "required": true, "component": "shared.editorial-control" }
+  }
+}

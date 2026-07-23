@@ -1,0 +1,9 @@
+---
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexFaq, notexSite } from "../../data/notex";
+const faqSchema = { "@type": "FAQPage", mainEntity: notexFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
+---
+<NotexLayout title="Notex docs | How the AI notes workflow works" description="Learn how Notex captures meetings, summarizes documents, creates tasks, and preserves source context." canonical="/docs/" structuredData={[faqSchema]}>
+  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Documentation</p><h1>A clear answer before you start.</h1><p>Notex works best when the source, the question, and the next action are all explicit. Start with the workflow below.</p></div></section>
+  <section class="notex-section"><div class="notex-container"><div class="notex-detail-grid"><div><h2>How Notex works</h2><ul class="notex-list"><li><strong>1. Capture.</strong><br />Record from the browser or upload a meeting, interview, or document.</li><li><strong>2. Understand.</strong><br />Ask for a summary, decisions, themes, risks, or answers grounded in the source.</li><li><strong>3. Act.</strong><br />Review the result, edit what matters, and share tasks or decisions.</li></ul></div><div><h2>Frequently asked</h2><ul class="notex-list">{notexFaq.map((item) => <li><strong>{item.question}</strong><br />{item.answer}</li>)}</ul></div></div></div></section>
+</NotexLayout>

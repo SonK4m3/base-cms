@@ -23,6 +23,10 @@ export const primaryNav = [
   { label: "Liên hệ", href: "/lien-he" }
 ];
 
+// The medical preset adapts these neutral names for reusable layouts and tooling.
+export const siteSettings = clinicSite;
+export const siteNavigation = primaryNav;
+
 export const homeHero = {
   eyebrow: "Phòng khám Tái Tạo An Tâm",
   title: "Tư vấn chuyên sâu về y học tái tạo và tế bào gốc",

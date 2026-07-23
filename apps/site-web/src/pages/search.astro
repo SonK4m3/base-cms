@@ -1,0 +1,11 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { buildJsonLdGraph, buildMetadata } from "@base-cms/site-core";
+import { siteContext } from "../data/site.ts";
+
+const metadata = buildMetadata(siteContext, { title: `Search ${siteContext.manifest.brand.brandName}`, description: "Search public website content. Search result and filter URLs are not indexed.", path: "/search/", robots: "noindex,follow" });
+const graph = buildJsonLdGraph(siteContext, metadata);
+---
+<SiteLayout metadata={metadata} graph={graph}>
+  <section class="hero"><div class="container narrow"><p class="eyebrow">Site search</p><h1>Search</h1><p class="summary">Search results and filter combinations remain noindex and are excluded from every sitemap.</p><form action="/search/" method="get"><label>Search terms <input name="q" type="search" /></label> <button class="button">Search</button></form></div></section>
+</SiteLayout>

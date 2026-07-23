@@ -1,107 +1,13 @@
 ---
-export function getStaticPaths() {
-  return [
-    { params: { slug: "te-bao-goc-la-gi" } },
-    { params: { slug: "nhung-hieu-lam-thuong-gap-ve-te-bao-goc" } },
-    { params: { slug: "quy-trinh-tu-van-te-bao-goc-dien-ra-nhu-the-nao" } }
-  ];
-}
-
-import ClinicLayout from "../../layouts/ClinicLayout.astro";
-import SectionHeading from "../../components/SectionHeading.astro";
-import { articleCards, clinicSite, doctors, faqItems } from "../../data/site";
-import "../../styles/global.css";
-
-const article = articleCards.find((item) => item.slug === Astro.params.slug);
-if (!article) {
-  throw new Error(`Blog article not found: ${Astro.params.slug}`);
-}
-
-const relatedDoctor = doctors.find((doctor) => doctor.slug === article.relatedDoctorSlug);
-const relatedFaq = faqItems.find((item) => item.slug === article.relatedFaqSlug);
-
-const articleStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: article.title,
-  description: article.description,
-  datePublished: article.date,
-  dateModified: article.updatedAt,
-  author: {
-    "@type": "Organization",
-    name: article.author
-  },
-  publisher: {
-    "@type": "MedicalClinic",
-    name: clinicSite.name
-  },
-  reviewer: relatedDoctor
-    ? {
-        "@type": "Person",
-        name: relatedDoctor.name,
-        jobTitle: relatedDoctor.title
-      }
-    : undefined
-};
+import NotexLayout from "../../layouts/NotexLayout.astro";
+import { notexBlog, notexSite } from "../../data/notex";
+import { createBreadcrumbSchema } from "@base-cms/site-core";
+export function getStaticPaths() { return notexBlog.map((post) => ({ params: { slug: post.slug }, props: { post } })); }
+const { post } = Astro.props;
+const articleSchema = { "@type": "Article", headline: post.title, description: post.description, datePublished: post.date, author: { "@type": "Organization", name: notexSite.name }, publisher: { "@type": "Organization", name: notexSite.name } };
+const breadcrumbs = createBreadcrumbSchema([{ name: "Notex", url: notexSite.url }, { name: "Blog", url: `${notexSite.url}blog/` }, { name: post.title, url: `${notexSite.url}blog/${post.slug}/` }]);
 ---
-
-<ClinicLayout
-  title={`${article.title} | Blog`}
-  description={article.description}
-  activeHref="/blog"
-  structuredData={articleStructuredData}
->
-  <section class="article-hero">
-    <p class="eyebrow">{article.tag}</p>
-    <h1>{article.title}</h1>
-    <p>{article.description}</p>
-    <div class="blog-meta">
-      <span>{article.date}</span>
-      <span>Cập nhật: {article.updatedAt}</span>
-      <span>{article.readTime}</span>
-    </div>
-  </section>
-
-  <section class="section-block split-page">
-    <article class="page-card article-body">
-      <SectionHeading eyebrow="Điểm chính" title="Những gì người đọc nên nắm" />
-      <ul class="info-list">
-        {article.takeaways.map((item) => <li>{item}</li>)}
-      </ul>
-
-      <SectionHeading eyebrow="Vai trò của bài viết" title="Mục tiêu nội dung" />
-      <p>
-        Bài viết thuộc cụm chủ đề <strong>{article.category}</strong>, được xây để giải thích khái niệm, chuẩn hóa kỳ vọng tìm kiếm và tạo
-        cầu nối sang FAQ, hồ sơ bác sĩ và các trang quy trình có liên quan.
-      </p>
-      <p>
-        Khi kết nối CMS, {clinicSite.name} có thể thay phần thân bài bằng nội dung thật từ Strapi, nhưng vẫn nên giữ khối metadata tác
-        giả, người duyệt nội dung và ngày cập nhật để tăng tín hiệu authority.
-      </p>
-
-      <SectionHeading eyebrow="Liên kết nội bộ" title="Trang nên đọc tiếp" />
-      <ul class="info-list">
-        {relatedDoctor ? <li>Hồ sơ bác sĩ liên quan: {relatedDoctor.name}</li> : null}
-        {relatedFaq ? <li>FAQ liên quan: {relatedFaq.question}</li> : null}
-        <li>Nghiên cứu & công bố: /nghien-cuu-cong-bo</li>
-        <li>Chính sách duyệt y khoa: {clinicSite.medicalReviewPolicyUrl}</li>
-      </ul>
-    </article>
-
-    <aside class="page-card">
-      <SectionHeading eyebrow="Metadata SEO" title="Tín hiệu authority của bài viết" />
-      <ul class="info-list">
-        <li>Tác giả biên tập: {article.author}</li>
-        <li>Người duyệt nội dung: {article.reviewer} ({article.reviewerRole})</li>
-        <li>Từ khóa chính: {article.keywords.join(", ")}</li>
-        <li>Search intent chính: {article.primaryIntent}</li>
-        <li>Liên kết khuyến nghị: FAQ, hồ sơ bác sĩ, quy trình, nghiên cứu liên quan</li>
-      </ul>
-
-      <SectionHeading eyebrow="Nguồn tham khảo" title="Nguồn tham khảo định hướng" />
-      <ul class="info-list">
-        {article.references.map((item) => <li>{item}</li>)}
-      </ul>
-    </aside>
-  </section>
-</ClinicLayout>
+<NotexLayout title={`${post.title} | Notex`} description={post.description} canonical={`/blog/${post.slug}/`} ogType="article" structuredData={[articleSchema, breadcrumbs]}>
+  <article class="notex-page-hero"><div class="notex-container"><p class="notex-breadcrumb"><a href="/blog/">Blog</a> / {post.category}</p><p class="notex-eyebrow">{post.category} · {post.date} · {post.readTime}</p><h1>{post.title}</h1><p>{post.description}</p></div></article>
+  <section class="notex-section"><div class="notex-container"><div class="notex-detail-grid"><div><h2>The short answer</h2><div class="notex-answer">The best AI note-taking workflow starts with a real source, answers a specific question, and keeps the resulting action close to the evidence.</div><p class="notex-lede">This article is part of the Notex editorial series. It is designed to be useful on its own, with concrete examples and clear trade-offs rather than generic AI promises.</p></div><aside><h2>Keep exploring</h2><ul class="notex-list"><li><a href="/features/meeting-notes/">Meeting notes</a></li><li><a href="/use-cases/sales-teams/">Sales workflows</a></li><li><a href="/compare/meeting-bot/">Meeting bot comparison</a></li></ul></aside></div></div></section>
+</NotexLayout>

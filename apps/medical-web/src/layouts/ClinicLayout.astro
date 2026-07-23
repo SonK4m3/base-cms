@@ -2,6 +2,20 @@
 import BaseLayout from "./BaseLayout.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { clinicSite } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  noindex?: boolean;
+  ogType?: "website" | "article" | "profile";
+  activeHref?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+}
 
 const {
   title = "Phòng khám Tạo An Tâm",
@@ -10,8 +24,11 @@ const {
   noindex,
   ogType,
   activeHref = "/",
-  structuredData
-} = Astro.props;
+  structuredData,
+  image,
+  imageWidth,
+  imageHeight
+}: Props = Astro.props;
 ---
 
 <BaseLayout
@@ -21,6 +38,13 @@ const {
   noindex={noindex}
   ogType={ogType}
   structuredData={structuredData}
+  siteName={clinicSite.name}
+  siteDescription={description}
+  siteLogo={clinicSite.logoImage}
+  lang="vi"
+  image={image}
+  imageWidth={imageWidth}
+  imageHeight={imageHeight}
 >
   <SiteHeader activeHref={activeHref} />
   <main class="page-shell">

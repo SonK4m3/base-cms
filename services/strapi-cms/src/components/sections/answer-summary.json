@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_sections_answer_summaries",
+  "info": { "displayName": "Answer summary" },
+  "attributes": {
+    "heading": { "type": "string" },
+    "text": { "type": "text", "required": true }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_shared_seos",
+  "info": { "displayName": "SEO", "description": "Page metadata controlled by the editorial team" },
+  "attributes": {
+    "title": { "type": "string" },
+    "description": { "type": "text" },
+    "noindex": { "type": "boolean", "default": false },
+    "socialImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] }
+  }
+}

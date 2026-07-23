@@ -1,0 +1,74 @@
+---
+import { manifest, siteId } from "../data/site.ts";
+interface Props { formType?: string; contextId?: string }
+const { formType = "general_contact", contextId } = Astro.props;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const activeLocale = manifest.supportedLocales.find((locale) => locale.urlPrefix && Astro.url.pathname.startsWith(`/${locale.urlPrefix.replace(/^\/+|\/+$/g, "")}/`));
+const privacyHref = `${activeLocale ? `/${activeLocale.urlPrefix.replace(/^\/+|\/+$/g, "")}` : ""}/privacy/`;
+---
+<form class="lead-form" data-lead-form method="post" action="/api/lead">
+  <input type="hidden" name="siteId" value={siteId} />
+  <input type="hidden" name="formType" value={formType} />
+  <input type="hidden" name="locale" value={manifest.defaultLocale} />
+  <input type="hidden" name="contextId" value={contextId} />
+  <input class="honeypot" type="text" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <label>Full name <input name="fullName" autocomplete="name" required /></label>
+  <div class="form-grid">
+    <label>Email <input type="email" name="email" autocomplete="email" /></label>
+    <label>Phone <input type="tel" name="phone" autocomplete="tel" /></label>
+  </div>
+  <label>How can we help? <textarea name="message" rows="5" required></textarea></label>
+  <label class="consent"><input type="checkbox" name="consent" required /> I agree that {manifest.brand.brandName} may use this information to respond to my inquiry under the <a href={privacyHref}>privacy policy</a>.</label>
+  {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>}
+  <button class="button" type="submit">Send inquiry</button>
+  <p class="form-status" aria-live="polite"></p>
+</form>
+{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script>
+  const form = document.querySelector("[data-lead-form]");
+  let formStarted = false;
+  window.trackSiteEvent?.("lead_form_view");
+  form?.addEventListener("input", () => {
+    if (!formStarted) { formStarted = true; window.trackSiteEvent?.("lead_form_start"); }
+  });
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const target = event.currentTarget;
+    if (!(target instanceof HTMLFormElement)) return;
+    const status = target.querySelector(".form-status");
+    const data = Object.fromEntries(new FormData(target).entries());
+    const query = new URLSearchParams(window.location.search);
+    const utm = Object.fromEntries(["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].map((key) => [key, query.get(key)]).filter((entry) => entry[1]));
+    const referrer = document.referrer.toLowerCase();
+    const aiReferralSource = referrer.includes("chatgpt.com") || referrer.includes("chat.openai.com") ? "chatgpt" : referrer.includes("perplexity.ai") ? "perplexity" : referrer.includes("bing.com") ? "bing" : referrer.includes("gemini.google.com") || referrer.includes("claude.ai") ? "other-ai" : undefined;
+    const payload = {
+      siteId: String(data.siteId || ""),
+      formType: String(data.formType || ""),
+      locale: String(data.locale || ""),
+      contextId: String(data.contextId || "") || undefined,
+      fullName: String(data.fullName || ""),
+      email: String(data.email || "") || undefined,
+      phone: String(data.phone || "") || undefined,
+      message: String(data.message || "") || undefined,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+      utm,
+      aiReferralSource,
+      consentTimestamp: new Date().toISOString(),
+      privacyPolicyVersion: "2026-01",
+      idempotencyKey: crypto.randomUUID(),
+      turnstileToken: String(data["cf-turnstile-response"] || "") || undefined,
+      companyWebsite: String(data.companyWebsite || "")
+    };
+    window.trackSiteEvent?.("lead_form_submit", { form_type: payload.formType });
+    if (status) status.textContent = "Sending…";
+    try {
+      const response = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+      if (!response.ok) throw new Error("Request failed");
+      window.trackSiteEvent?.("lead_form_success", { form_type: payload.formType });
+      window.location.assign("/thank-you/");
+    } catch {
+      if (status) status.textContent = "We could not send your inquiry. Please use the email or phone number on this page.";
+    }
+  });
+</script>

@@ -1,0 +1,15 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@base-cms/site-core": ["../../packages/site-core/src/index.ts"],
+      "@base-cms/catalog": ["../../packages/catalog/src/index.ts"],
+      "@base-cms/content": ["../../packages/content/src/index.ts"],
+      "@base-cms/ui": ["../../packages/ui/src/index.ts"],
+      "@base-cms/presets": ["../../packages/presets/src/index.ts"],
+      "@base-cms/forms": ["../../packages/forms/src/index.ts"],
+      "@base-cms/analytics": ["../../packages/analytics/src/index.ts"]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+---
+import type { SeoDocument } from "@base-cms/site-core";
+import SeoHead from "../components/SeoHead.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Analytics from "../components/Analytics.astro";
+import { manifest } from "../data/site.ts";
+import "../styles/global.css";
+
+interface Props { metadata: SeoDocument; graph: Record<string, unknown> }
+const { metadata, graph } = Astro.props;
+const theme = manifest.theme;
+const localeCode = manifest.supportedLocales.find((locale) => locale.htmlLang === metadata.language)?.code ?? manifest.defaultLocale;
+---
+<!doctype html>
+<html lang={metadata.language} style={`--brand:${theme.colors.brand};--brand-contrast:${theme.colors.brandContrast};--accent:${theme.colors.accent};--surface:${theme.colors.surface};--text:${theme.colors.text};--muted:${theme.colors.muted};--container:${theme.containerWidth};--heading-font:${theme.fonts.heading};--body-font:${theme.fonts.body};`}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <SeoHead metadata={metadata} graph={graph} faviconUrl={manifest.brand.faviconUrl} themeColor={theme.colors.brand} />
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <SiteHeader localeCode={localeCode} alternates={metadata.hreflang} />
+    <main id="main-content"><slot /></main>
+    <SiteFooter localeCode={localeCode} />
+  </body>
+</html>

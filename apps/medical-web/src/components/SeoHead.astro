@@ -1,25 +1,93 @@
 ---
+import {
+  createJsonLdGraph,
+  normalizeCanonicalUrl,
+  resolveAbsoluteUrl,
+  type SiteSettings
+} from "@base-cms/site-core";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  noindex?: boolean;
+  ogType?: "website" | "article" | "profile";
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  siteName?: string;
+  siteDescription?: string;
+  siteLogo?: string;
+  lang?: string;
+  themeColor?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+}
+
 const {
   title = "Base CMS",
   description = "Medical CMS and SEO content platform",
   canonical,
   noindex = false,
   ogType = "website",
-  structuredData
-} = Astro.props;
+  structuredData,
+  siteName = "Base CMS",
+  siteDescription = description,
+  siteLogo,
+  lang = "en",
+  themeColor = "#0f7f89",
+  image,
+  imageWidth,
+  imageHeight
+}: Props = Astro.props;
 
-const canonicalUrl = canonical ?? Astro.site?.href ?? null;
+const siteUrl = Astro.site?.toString() ?? "http://localhost:4321/";
+const canonicalUrl = normalizeCanonicalUrl(siteUrl, canonical ?? Astro.url.pathname);
+const resolvedImage = image ?? siteLogo;
+const settings: SiteSettings = {
+  name: siteName,
+  description: siteDescription,
+  url: siteUrl,
+  locale: lang,
+  logoUrl: siteLogo
+};
+const page = {
+  title,
+  description,
+  canonicalUrl,
+  noindex,
+  ogType,
+  imageUrl: resolvedImage,
+  imageWidth,
+  imageHeight,
+  locale: lang
+};
+const additionalEntities = (structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [])
+  .map((item) => {
+    const { ["@context"]: _context, ...entity } = item;
+    return entity;
+  });
+const jsonLd = {
+  ...createJsonLdGraph(settings, page, additionalEntities)
+};
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
 {noindex ? <meta name="robots" content="noindex,nofollow" /> : null}
-{canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
+<link rel="canonical" href={canonicalUrl} />
+<meta name="author" content={siteName} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={ogType} />
-<meta name="theme-color" content="#0f7f89" />
-{structuredData
-  ? (Array.isArray(structuredData) ? structuredData : [structuredData]).map((item) => (
-      <script type="application/ld+json" set:html={JSON.stringify(item)} />
-    ))
-  : null}
+<meta property="og:site_name" content={siteName} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:locale" content={lang} />
+{resolvedImage ? <meta property="og:image" content={resolveAbsoluteUrl(siteUrl, resolvedImage)} /> : null}
+{imageWidth ? <meta property="og:image:width" content={String(imageWidth)} /> : null}
+{imageHeight ? <meta property="og:image:height" content={String(imageHeight)} /> : null}
+<meta name="twitter:card" content={resolvedImage ? "summary_large_image" : "summary"} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{resolvedImage ? <meta name="twitter:image" content={resolveAbsoluteUrl(siteUrl, resolvedImage)} /> : null}
+<meta name="theme-color" content={themeColor} />
+<link rel="icon" href={siteLogo ?? "/favicon.svg"} />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
