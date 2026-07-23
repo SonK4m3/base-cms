@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "deploy:cf": "node ../../scripts/cloudflare-pages-deploy.mjs"
+    "preview": "npm run build && wrangler dev",
+    "deploy:cf": "node ../../scripts/cloudflare-pages-deploy.mjs",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@astrojs/cloudflare": "12",
