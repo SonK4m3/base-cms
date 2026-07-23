@@ -2,6 +2,8 @@ import { defineConfig } from "astro/config";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
+import cloudflare from "@astrojs/cloudflare";
+
 const appDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(appDir, "../..");
 
@@ -9,6 +11,7 @@ export default defineConfig({
   srcDir: "./src",
   publicDir: "./public",
   site: process.env.PUBLIC_SITE_URL || "https://taitaoantam.vn",
+
   vite: {
     resolve: {
       alias: {
@@ -24,5 +27,7 @@ export default defineConfig({
         allow: [repoRoot]
       }
     }
-  }
+  },
+
+  adapter: cloudflare()
 });
