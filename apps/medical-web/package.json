@@ -9,6 +9,10 @@
     "deploy:cf": "node ../../scripts/cloudflare-pages-deploy.mjs"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "astro": "^5.10.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.113.0"
   }
 }
