@@ -14,13 +14,12 @@ export const clinicSite = {
 
 export const primaryNav = [
   { label: "Trang chủ", href: "/" },
-  { label: "Giới thiệu", href: "/gioi-thieu" },
-  { label: "Đội ngũ bác sĩ", href: "/bac-si" },
-  { label: "Phương pháp", href: "/phuong-phap-dieu-tri" },
-  { label: "Quy trình", href: "/quy-trinh" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Blog", href: "/blog" },
-  { label: "Liên hệ", href: "/lien-he" }
+  { label: "Giới thiệu", href: "/#gioi-thieu" },
+  { label: "Dịch vụ", href: "/#dich-vu" },
+  { label: "Đội ngũ bác sĩ", href: "/#doi-ngu" },
+  { label: "Quy trình", href: "/#quy-trinh" },
+  { label: "Kiến thức", href: "/#kien-thuc" },
+  { label: "Đặt lịch", href: "/#dat-lich" }
 ];
 
 // The medical preset adapts these neutral names for reusable layouts and tooling.
@@ -32,7 +31,7 @@ export const homeHero = {
   title: "Tư vấn chuyên sâu về y học tái tạo và tế bào gốc",
   description:
     "Định hướng chuyên môn rõ ràng, hồ sơ bác sĩ minh bạch và nội dung dựa trên tài liệu tham khảo để giúp khách hàng hiểu đúng trước khi quyết định tư vấn hoặc thăm khám.",
-  primaryCta: { label: "Đặt lịch tư vấn", href: "/lien-he" },
+  primaryCta: { label: "Đặt lịch tư vấn", href: "/#dat-lich" },
   secondaryCta: { label: "Gọi hotline", href: "tel:1900123456" },
   proofItems: [
     "Bác sĩ CKI/ThS/TS công khai hồ sơ",

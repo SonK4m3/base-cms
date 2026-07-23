@@ -1,8 +1,0 @@
----
-import NotexLayout from "../../layouts/NotexLayout.astro";
-import { notexCustomers } from "../../data/notex";
----
-<NotexLayout title="Notex customers | Real workflows, measurable outcomes" description="Read Notex customer stories from operations, research, and B2B sales teams." canonical="/customers/">
-  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Customer stories</p><h1>Evidence is part of the product.</h1><p>See how teams use Notex to reduce manual note-taking, preserve source context, and make follow-up more reliable.</p></div></section>
-  <section class="notex-section"><div class="notex-container"><div class="notex-index-grid">{notexCustomers.map((item) => <a class="notex-index-card" href={`/customers/${item.slug}/`}><span>{item.name} · {item.industry}</span><h3>{item.title}</h3><p>{item.summary}</p><span>Read story →</span></a>)}</div></div></section>
-</NotexLayout>

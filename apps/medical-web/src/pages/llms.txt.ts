@@ -1,18 +1,18 @@
 import { createLlmsTxt } from "@base-cms/site-core";
-import { notexSite } from "../data/notex";
+import { clinicSite } from "../data/site";
 
-const baseUrl = import.meta.env.SITE ?? process.env.PUBLIC_SITE_URL ?? "https://notex.example";
+const baseUrl = import.meta.env.SITE ?? process.env.PUBLIC_SITE_URL ?? "https://taitaoantam.vn";
 
 export const GET = () =>
   new Response(
     createLlmsTxt(
       {
-        name: notexSite.name,
-        description: notexSite.description,
+        name: clinicSite.name,
+        description: "Phòng khám tư vấn chuyên sâu về y học tái tạo và tế bào gốc.",
         url: baseUrl,
-        locale: notexSite.locale
+        locale: "vi-VN"
       },
-      notexSite.navigation.map((item) => ({ title: item.label, url: item.href }))
+      [{ title: "Landing page Phòng khám Tái Tạo An Tâm", url: "/" }]
     ),
     { headers: { "Content-Type": "text/plain; charset=utf-8" } }
   );

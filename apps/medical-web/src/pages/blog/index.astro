@@ -1,8 +1,0 @@
----
-import NotexLayout from "../../layouts/NotexLayout.astro";
-import { notexBlog } from "../../data/notex";
----
-<NotexLayout title="Notex blog | Meeting notes, AI workflows, and research" description="Practical guides for meeting notes, transcripts, document summaries, and AI knowledge workflows." canonical="/blog/">
-  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Notex journal</p><h1>Useful ideas for work that happens in conversation.</h1><p>Guides, templates, comparisons, and field notes for teams building a more reliable context workflow.</p></div></section>
-  <section class="notex-section"><div class="notex-container"><div class="notex-index-grid">{notexBlog.map((post) => <a class="notex-index-card" href={`/blog/${post.slug}/`}><span>{post.category} · {post.readTime}</span><h3>{post.title}</h3><p>{post.description}</p><span>{post.date} →</span></a>)}</div></div></section>
-</NotexLayout>

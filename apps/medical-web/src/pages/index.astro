@@ -1,41 +1,315 @@
 ---
-import NotexLayout from "../layouts/NotexLayout.astro";
-import { notexFeatures, notexFaq, notexSite, notexUseCases } from "../data/notex";
-import { createBreadcrumbSchema } from "@base-cms/site-core";
+import ClinicLayout from "../layouts/ClinicLayout.astro";
+import LeadForm from "../components/LeadForm.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import {
+  clinicSite,
+  homeHero,
+  clinicHighlights,
+  doctors,
+  processSteps,
+  complianceCards,
+  reasons,
+  faqItems,
+  articleCards
+} from "../data/site";
+import "../styles/global.css";
 
-const softwareSchema = {
-  "@type": "SoftwareApplication",
-  name: notexSite.name,
-  url: notexSite.url,
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web, Chrome, Windows, macOS",
-  description: notexSite.description,
-  featureList: notexFeatures.map((feature) => feature.title),
-  publisher: { "@type": "Organization", name: notexSite.name }
+const heroBackground = "/assets/hero-stemcell-generated.png";
+
+const aboutCards = clinicHighlights.map((item, index) => ({
+  ...item,
+  icon: ["bi-heart-pulse", "bi-people", "bi-bullseye", "bi-chat-dots"][index] || "bi-stars"
+}));
+
+const heroProofItems = [
+  { label: "Phạm vi chuyên môn được cấp phép", icon: "bi-patch-check" },
+  { label: "Đội ngũ bác sĩ rõ hồ sơ", icon: "bi-person-vcard" },
+  { label: "Quy trình minh bạch", icon: "bi-check2-circle" },
+  { label: "Nội dung dựa trên cơ sở khoa học", icon: "bi-beaker" }
+];
+
+const serviceCards = [
+  {
+    icon: "bi-activity",
+    title: "Tư vấn y học tái tạo",
+    description: "Tư vấn định hướng ứng dụng y học tái tạo phù hợp với mục tiêu sức khỏe cụ thể."
+  },
+  {
+    icon: "bi-diagram-3",
+    title: "Tư vấn tế bào gốc",
+    description: "Làm rõ bản chất, khả năng ứng dụng và các lưu ý liên quan đến tế bào gốc."
+  },
+  {
+    icon: "bi-clipboard2-pulse",
+    title: "Đánh giá trước can thiệp",
+    description: "Đánh giá hồ sơ nền trước khi xem xét mức độ phù hợp của bất kỳ hướng tiếp cận nào."
+  },
+  {
+    icon: "bi-arrow-repeat",
+    title: "Theo dõi sau tư vấn",
+    description: "Hỗ trợ giải đáp thêm và theo dõi các mốc sau buổi tư vấn hoặc thăm khám."
+  },
+  {
+    icon: "bi-people-fill",
+    title: "Hội chẩn chuyên môn",
+    description: "Hội chẩn đa chuyên khoa để đưa ra định hướng đánh giá tối ưu hơn cho từng ca."
+  },
+  {
+    icon: "bi-heart",
+    title: "Tư vấn sức khỏe chuyên sâu",
+    description: "Tư vấn lối sống, dinh dưỡng và theo dõi dài hạn với các mục tiêu phục hồi."
+  }
+];
+
+const knowledgeLinks = [
+  { label: "Thông tin chuyên môn", icon: "bi-journal-text", href: "/#phap-ly" },
+  { label: "Hỏi đáp chuyên gia", icon: "bi-chat-left-text", href: "/#kien-thuc" },
+  { label: "Quy trình tư vấn", icon: "bi-clipboard2-check", href: "/#quy-trinh" },
+  { label: "Liên hệ phòng khám", icon: "bi-telephone", href: "/#dat-lich" }
+];
+
+const knowledgeCards = articleCards.slice(0, 3);
+
+const complianceItems = complianceCards.map((item, index) => ({
+  ...item,
+  icon: ["bi-file-earmark-medical", "bi-clipboard2-check", "bi-book", "bi-person-badge", "bi-shield-check"][index] || "bi-patch-check"
+}));
+
+const reasonItems = reasons.map((item, index) => ({
+  title: item,
+  icon: ["bi-eye", "bi-sliders", "bi-bank", "bi-mortarboard", "bi-lock", "bi-person-hearts"][index] || "bi-stars"
+}));
+
+const processIcons = [
+  "bi-calendar2-check",
+  "bi-file-earmark-text",
+  "bi-search",
+  "bi-clipboard2-pulse",
+  "bi-chat-square-text",
+  "bi-arrow-repeat"
+];
+
+const organizationSchema = {
+  "@type": "MedicalClinic",
+  "@id": "#clinic",
+  name: clinicSite.name,
+  description: "Phòng khám tư vấn chuyên sâu về y học tái tạo và tế bào gốc.",
+  image: clinicSite.logoImage,
+  telephone: clinicSite.hotline,
+  address: clinicSite.address,
+  medicalSpecialty: "RegenerativeMedicine"
 };
-const faqSchema = { "@type": "FAQPage", mainEntity: notexFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
-const breadcrumbs = createBreadcrumbSchema([{ name: "Notex", url: `${notexSite.url}/` }]);
+
+const faqSchema = {
+  "@type": "FAQPage",
+  mainEntity: faqItems.slice(0, 5).map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer }
+  }))
+};
 ---
-<NotexLayout title="Notex — AI notes for meetings, audio, and documents" description={notexSite.description} structuredData={[softwareSchema, faqSchema, breadcrumbs]}>
-  <section class="notex-hero">
-    <div class="notex-hero-copy">
-      <p class="notex-eyebrow">The context layer for modern teams</p>
-      <h1>Turn conversations into clear next steps.</h1>
-      <p class="notex-lede">Notex is an AI note-taking platform for recording meetings, creating transcripts, summarizing documents, and turning discussions into work — without a meeting bot.</p>
-      <div class="notex-actions"><a class="notex-button" href="/pricing/">Start free</a><a class="notex-button notex-button-light" href="/features/">See how it works</a></div>
-      <p class="notex-proof">For sales teams, researchers, operators, and anyone whose work happens in conversations.</p>
+
+<ClinicLayout
+  title={`${clinicSite.name} | Trang chủ`}
+  description="Phòng khám tư vấn chuyên sâu về y học tái tạo và tế bào gốc, với hồ sơ bác sĩ minh bạch và quy trình tư vấn rõ ràng."
+  activeHref="/"
+  image={heroBackground}
+  imageWidth={1536}
+  imageHeight={1024}
+  structuredData={[organizationSchema, faqSchema]}
+>
+  <section class="page-hero home-hero home-hero-backdrop" style={`--hero-image: url('${heroBackground}')`}>
+    <div class="hero-copy hero-blur-panel">
+      <p class="eyebrow hero-eyebrow">{homeHero.eyebrow}</p>
+      <h1>{homeHero.title}</h1>
+      <p class="hero-text">{homeHero.description}</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={homeHero.primaryCta.href}>{homeHero.primaryCta.label}</a>
+        <a class="button button-secondary" href={homeHero.secondaryCta.href}>{homeHero.secondaryCta.label}</a>
+      </div>
+      <div class="hero-proof-grid">
+        {heroProofItems.map((item) => (
+          <div class="hero-proof-item">
+            <span class="hero-proof-icon"><i class={`bi ${item.icon}`}></i></span>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
-    <div class="notex-hero-art" aria-label="Notex meeting notes preview">
-      <div class="notex-window-top"><i></i><i></i><i></i><span class="notex-window-label">Notex / weekly product review</span></div>
-      <div class="notex-note"><span class="notex-note-label">AI summary</span><h3>Three decisions. Four owners. One clear follow-up.</h3><div class="notex-note-row"><strong>Decision</strong>Ship the browser capture beta to the design partner group.</div><div class="notex-note-row"><strong>Action item</strong>Maya to share the onboarding checklist by Friday.</div><div class="notex-note-row"><strong>Open question</strong>Which workspace should own the integration roadmap?</div></div>
+    <div class="hero-backdrop-spacer" aria-hidden="true"></div>
+  </section>
+
+  <section class="split-grid" id="gioi-thieu">
+    <article class="section-block">
+      <SectionHeading eyebrow="Về phòng khám" title="Về Phòng khám" />
+      <div class="card-grid">
+        {aboutCards.map((item) => (
+          <article class="icon-card icon-card-left">
+            <div class="icon-badge icon-badge-soft"><i class={`bi ${item.icon}`}></i></div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="explain-panel">
+      <SectionHeading eyebrow="Tổng quan" title="Tế bào gốc và y học tái tạo là gì?" />
+      <p>
+        Tế bào gốc là nhóm tế bào có khả năng tự làm mới và biệt hóa thành nhiều loại tế bào khác nhau. Y học tái tạo là lĩnh vực ứng
+        dụng tế bào gốc, vật liệu sinh học và các yếu tố sinh học nhằm hỗ trợ phục hồi mô, tái tạo mô hoặc cơ quan trong cơ thể.
+      </p>
+      <p>
+        Ứng dụng y học tái tạo và tế bào gốc đang được nghiên cứu và phát triển trên toàn thế giới. Tại Việt Nam, các dịch vụ liên quan
+        được triển khai trong phạm vi pháp luật cho phép và dưới sự giám sát của cơ quan chuyên môn.
+      </p>
+      <p class="notice notice-soft">
+        Lưu ý: Thông tin trên website chỉ mang tính tham khảo, không thay thế cho chẩn đoán hoặc quyết định điều trị của bác sĩ.
+      </p>
+    </article>
+  </section>
+
+  <section class="section-block" id="dich-vu">
+    <SectionHeading eyebrow="Dịch vụ" title="Nhóm dịch vụ tư vấn tại phòng khám" />
+    <div class="service-grid">
+      {serviceCards.map((card) => (
+        <article class="feature-card">
+          <div class="icon-badge icon-badge-soft"><i class={`bi ${card.icon}`}></i></div>
+          <h3>{card.title}</h3>
+          <p>{card.description}</p>
+        </article>
+      ))}
+    </div>
+    <p class="notice notice-amber">
+      Danh mục phương pháp chi tiết sẽ được công bố sau khi được xác nhận bởi bộ phận chuyên môn và pháp lý.
+    </p>
+  </section>
+
+  <section class="dual-panel" id="doi-ngu">
+    <article class="section-block">
+      <SectionHeading eyebrow="Đội ngũ bác sĩ" title="Đội ngũ bác sĩ và chuyên gia" />
+      <div class="doctor-grid-slim">
+        {doctors.map((doctor) => (
+          <article class="doctor-card doctor-card-vertical">
+            <img src={doctor.image} alt={doctor.name} class="doctor-photo-card" width="360" height="240" loading="lazy" />
+            <div class="doctor-profile-copy">
+              <p class="doctor-eyebrow">{doctor.title}</p>
+              <h3>{doctor.name}</h3>
+              <p class="doctor-credential">{doctor.credentialLine}</p>
+              <p class="doctor-meta">{doctor.experience}</p>
+            </div>
+            <div class="hero-actions">
+              <a class="button button-secondary doctor-link-slim" href="/#dat-lich">Đặt lịch tư vấn</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </article>
+
+    <article class="section-block" id="quy-trinh">
+      <SectionHeading eyebrow="Quy trình" title="Quy trình tư vấn và thăm khám" />
+      <div class="process-grid process-grid-full">
+        {processSteps.map((step, index) => (
+          <article class="process-card">
+            <div class="step-number">{index + 1}</div>
+            <div class="icon-badge icon-badge-outline"><i class={`bi ${processIcons[index] || "bi-check2-circle"}`}></i></div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </article>
+  </section>
+
+  <section class="section-block" id="phap-ly">
+    <SectionHeading eyebrow="Pháp lý" title="Cơ sở chuyên môn và pháp lý" />
+    <div class="compliance-grid">
+      {complianceItems.map((card) => (
+        <article class="feature-card feature-card-compact">
+          <div class="icon-badge icon-badge-soft"><i class={`bi ${card.icon}`}></i></div>
+          <h3>{card.title}</h3>
+          <p>{card.description}</p>
+        </article>
+      ))}
     </div>
   </section>
 
-  <section class="notex-section notex-section-dark"><div class="notex-container"><div class="notex-section-head"><div><p class="notex-eyebrow">One workflow, less recovery</p><h2>Everything you need after the conversation.</h2></div><p class="notex-section-intro">Notex helps you capture the source, understand what happened, and move the useful parts into the tools where work gets done.</p></div><div class="notex-feature-grid">{notexFeatures.map((feature, index) => <a class="notex-card" href={`/features/${feature.slug}/`}><span class="notex-card-number">0{index + 1}</span><h3>{feature.title}</h3><p>{feature.description}</p><span class="notex-arrow">↗</span></a>)}</div></div></section>
+  <section class="section-block">
+    <SectionHeading eyebrow="Tại sao chọn" title="Vì sao khách hàng lựa chọn phòng khám?" />
+    <div class="reason-grid">
+      {reasonItems.map((item) => (
+        <article class="info-card info-card-center">
+          <div class="icon-badge icon-badge-soft"><i class={`bi ${item.icon}`}></i></div>
+          <h3>{item.title}</h3>
+          <p>Tối ưu trải nghiệm tư vấn bằng thông tin rõ ràng, bảo mật và đúng phạm vi chuyên môn.</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <section class="notex-section"><div class="notex-container"><div class="notex-prompt"><blockquote>“What AI tool can summarize a meeting without adding a bot?”<cite>A real question Notex is built to answer</cite></blockquote><div><p>Notex captures audio from the user's browser session or accepts a local file. That means your team can create a transcript and summary without adding another participant to Google Meet or Zoom.</p><a class="notex-button notex-button-light" href="/compare/meeting-bot/">Compare the workflow →</a></div></div></div></section>
+  <section class="faq-knowledge" id="kien-thuc">
+    <article class="section-block">
+      <SectionHeading eyebrow="FAQ" title="Câu hỏi thường gặp" />
+      <div class="faq-preview">
+        {faqItems.slice(0, 5).map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+            <small class="faq-reviewed">Duyệt bởi: {item.reviewedBy} · {item.lastReviewedAt}</small>
+          </details>
+        ))}
+      </div>
+    </article>
 
-  <section class="notex-section notex-section-blue"><div class="notex-container"><div class="notex-section-head"><div><p class="notex-eyebrow">Built around real questions</p><h2>Start with the situation, not the keyword.</h2></div><p class="notex-section-intro">Explore focused workflows for the people who need to remember, explain, and act on what was said.</p></div><div class="notex-index-grid">{notexUseCases.slice(0, 3).map((item) => <a class="notex-index-card" href={`/use-cases/${item.slug}/`}><span>{item.label}</span><h3>{item.title}</h3><p>{item.description}</p></a>)}</div></div></section>
+    <article class="section-block">
+      <SectionHeading eyebrow="Kiến thức" title="Kiến thức & chuyên mục" />
+      <div class="knowledge-feature-grid">
+        {knowledgeCards.map((article) => (
+          <article class="knowledge-card">
+            <div class="knowledge-thumb" style={`background-image: linear-gradient(135deg, rgba(15, 127, 137, 0.84), rgba(10, 90, 110, 0.96)), url('${article.image}')`}>
+              <div class="knowledge-thumb-label">{article.tag}</div>
+            </div>
+            <p class="doctor-eyebrow">{article.category}</p>
+            <h3>{article.title}</h3>
+            <p>{article.description}</p>
+            <small class="article-credit">{article.date} · {article.readTime}</small>
+            <a class="button button-primary" href="/#dat-lich">Hỏi bác sĩ</a>
+          </article>
+        ))}
+        <div class="knowledge-links knowledge-links-panel">
+          {knowledgeLinks.map((item) => (
+            <a href={item.href}>
+              <span class="knowledge-link-icon"><i class={`bi ${item.icon}`}></i></span>
+              <span>{item.label}</span>
+            </a>
+          ))}
+          <a class="knowledge-all" href="/#dat-lich">Đặt câu hỏi cho bác sĩ</a>
+        </div>
+      </div>
+    </article>
+  </section>
 
-  <section class="notex-section"><div class="notex-container"><div class="notex-section-head"><div><p class="notex-eyebrow">Useful context, visible evidence</p><h2>Summaries should be easy to verify.</h2></div><p class="notex-section-intro">Every output should help a person understand what happened, where it came from, and what to do next.</p></div><div class="notex-detail-grid"><div><h2>Capture → understand → act</h2><p class="notex-lede">Notex keeps the original transcript or document close to the summary, so a concise answer never has to become a black box.</p><a class="notex-button" href="/docs/">Read the workflow docs</a></div><ul class="notex-list"><li><strong>Capture the source.</strong><br />Record from the browser or upload the file you already have.</li><li><strong>Ask a useful question.</strong><br />Summarize, find risks, compare viewpoints, or extract decisions.</li><li><strong>Move the work forward.</strong><br />Edit and share tasks, notes, and decisions with the people who need them.</li></ul></div></div></section>
-</NotexLayout>
+  <section class="booking-shell" id="dat-lich">
+    <article class="booking-copy booking-copy-image booking-copy-compact">
+      <div class="booking-copy-content">
+        <p class="eyebrow">Bạn cần tư vấn?</p>
+        <h2>Đặt lịch tư vấn cùng chuyên gia ngay hôm nay!</h2>
+        <ul>
+          <li>Tư vấn 1:1 cùng bác sĩ chuyên môn</li>
+          <li>Đánh giá nền tảng hồ sơ, định hướng phù hợp</li>
+          <li>Bảo mật thông tin tuyệt đối</li>
+        </ul>
+        <div class="hotline-box">Gọi hotline: {clinicSite.hotline}</div>
+      </div>
+    </article>
+
+    <LeadForm
+      title="Đặt lịch tư vấn"
+      description="Điền thông tin để phòng khám liên hệ, sàng lọc ban đầu và sắp xếp khung giờ phù hợp."
+      intro="Phản hồi nhanh trong giờ làm việc"
+      submitLabel="Gửi yêu cầu tư vấn"
+    />
+  </section>
+</ClinicLayout>

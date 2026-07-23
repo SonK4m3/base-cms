@@ -8,7 +8,7 @@ const repoRoot = resolve(appDir, "../..");
 export default defineConfig({
   srcDir: "./src",
   publicDir: "./public",
-  site: process.env.PUBLIC_SITE_URL || "https://notex.example",
+  site: process.env.PUBLIC_SITE_URL || "https://taitaoantam.vn",
   vite: {
     resolve: {
       alias: {

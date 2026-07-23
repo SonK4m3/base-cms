@@ -27,7 +27,7 @@ const source = Astro.url.searchParams.get("source");
         Đội ngũ {clinicSite.name} sẽ liên hệ trong giờ làm việc để xác nhận nhu cầu, sàng lọc ban đầu và sắp xếp hướng tư vấn phù hợp.
       </p>
       <div class="hero-actions">
-        <a class="button button-primary" href="/lien-he">Quay lại trang liên hệ</a>
+        <a class="button button-primary" href="/#dat-lich">Quay lại form tư vấn</a>
         <a class="button button-secondary" href="/">Về trang chủ</a>
       </div>
     </div>
@@ -61,7 +61,7 @@ const source = Astro.url.searchParams.get("source");
       </ul>
       <div class="hero-actions">
         <a class="button button-primary" href={`tel:${clinicSite.hotline.replace(/\s+/g, "")}`}>Gọi ngay</a>
-        <a class="button button-secondary" href="/faq">Xem FAQ</a>
+        <a class="button button-secondary" href="/#kien-thuc">Xem FAQ</a>
       </div>
     </article>
   </section>
@@ -72,17 +72,17 @@ const source = Astro.url.searchParams.get("source");
       <article class="route-card">
         <h3>Đội ngũ bác sĩ</h3>
         <p>Xem hồ sơ, chuyên môn và vai trò biên tập của từng bác sĩ.</p>
-        <a class="button button-secondary" href="/bac-si">Mở trang bác sĩ</a>
+        <a class="button button-secondary" href="/#doi-ngu">Xem đội ngũ bác sĩ</a>
       </article>
       <article class="route-card">
         <h3>Blog kiến thức</h3>
         <p>Đọc bài viết chuyên môn, hướng dẫn và nội dung SEO/authority.</p>
-        <a class="button button-secondary" href="/blog">Đi tới blog</a>
+        <a class="button button-secondary" href="/#kien-thuc">Xem kiến thức y khoa</a>
       </article>
       <article class="route-card">
         <h3>Phương pháp</h3>
         <p>Khám phá cách phòng khám trình bày dịch vụ và quy trình tư vấn.</p>
-        <a class="button button-secondary" href="/phuong-phap-dieu-tri">Xem phương pháp</a>
+        <a class="button button-secondary" href="/#dich-vu">Xem dịch vụ tư vấn</a>
       </article>
     </div>
   </section>

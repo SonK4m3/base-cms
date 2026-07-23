@@ -1,8 +1,0 @@
----
-import NotexLayout from "../../layouts/NotexLayout.astro";
-import { notexComparisons } from "../../data/notex";
----
-<NotexLayout title="Notex comparisons | Find the right AI note-taking workflow" description="Clear comparisons for Notex, meeting bots, Fireflies, Otter, and Notion AI." canonical="/compare/">
-  <section class="notex-page-hero"><div class="notex-container"><p class="notex-eyebrow">Comparisons</p><h1>Choose the workflow, not the hype.</h1><p>Useful comparisons explain the capture model, source context, setup, and trade-offs. They do not pretend every team needs the same tool.</p></div></section>
-  <section class="notex-section"><div class="notex-container"><div class="notex-index-grid">{notexComparisons.map((item) => <a class="notex-index-card" href={`/compare/${item.slug}/`}><span>{item.label}</span><h3>{item.title}</h3><p>{item.description}</p><span>Read comparison →</span></a>)}</div></div></section>
-</NotexLayout>

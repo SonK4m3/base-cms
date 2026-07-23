@@ -1,9 +1,0 @@
----
-import NotexLayout from "../../layouts/NotexLayout.astro";
-import { notexIntegrations } from "../../data/notex";
-export function getStaticPaths() { return notexIntegrations.map((item) => ({ params: { slug: item.slug }, props: { item } })); }
-const { item } = Astro.props;
----
-<NotexLayout title={`${item.title} | Notex`} description={item.description} canonical={`/integrations/${item.slug}/`}>
-  <section class="notex-page-hero"><div class="notex-container"><p class="notex-breadcrumb"><a href="/integrations/">Integrations</a> / {item.label}</p><p class="notex-eyebrow">{item.status}</p><h1>{item.title}</h1><p>{item.description}</p><div class="notex-answer">Notex keeps the source conversation and the useful output connected, so integrations can carry context instead of only carrying text.</div><a class="notex-button" href="/pricing/">Get product updates</a></div></section>
-</NotexLayout>

@@ -1,6 +1,5 @@
 ---
 import { clinicSite, primaryNav } from "../data/site";
-import { pseoHubLinks } from "../data/seo";
 ---
 
 <footer class="site-footer">
@@ -23,7 +22,6 @@ import { pseoHubLinks } from "../data/seo";
   <div>
     <h3>Liên kết nhanh</h3>
     {primaryNav.map((item) => <p><i class="bi bi-chevron-right"></i><a href={item.href}>{item.label}</a></p>)}
-    {pseoHubLinks.map((item) => <p><i class="bi bi-chevron-right"></i><a href={item.href}>{item.label}</a></p>)}
   </div>
 
   <div>
@@ -36,9 +34,9 @@ import { pseoHubLinks } from "../data/seo";
 
   <div>
     <h3>Chính sách</h3>
-    <p><i class="bi bi-chevron-right"></i><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a></p>
-    <p><i class="bi bi-chevron-right"></i><a href="/chinh-sach-bien-tap">Điều khoản sử dụng</a></p>
-    <p><i class="bi bi-chevron-right"></i><a href="/chinh-sach-duyet-y-khoa">Chính sách duyệt y khoa</a></p>
+    <p><i class="bi bi-shield-check"></i><span>Bảo mật thông tin khách hàng</span></p>
+    <p><i class="bi bi-journal-check"></i><span>Nội dung có quy trình biên tập</span></p>
+    <p><i class="bi bi-person-check"></i><span>Thông tin y khoa được rà soát chuyên môn</span></p>
   </div>
 
   <div class="site-footer-note">
